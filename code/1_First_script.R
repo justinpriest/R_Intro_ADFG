@@ -58,10 +58,10 @@ data.frame(new1 = myvector, new2 = mynewvector)
 myvector <- c(2, 4, 5, 8, 10)
 myvector 
 # Note that we've overwritten "myvector" now. This can be dangerous. 
-# As such, it's considered poor practice to reuse variables, make a new one
+# As such, it's considered poor practice to reuse variables, always make a new one
 
 # Have you noticed so far that R is case sensitive? 
-# What do you think will happen next? Make your prediction, then run the line
+# What do you think will happen next? Make your prediction, then run the next line:
 Myvector
 Factor(c("Male", "Female", "Female"))
 
@@ -96,19 +96,6 @@ str(mydf)
 # Sometimes to clean things up we use rm() to remove an object
 rm(myvector)
 # Bye bye myvector. So long and thanks for all the fish
-
-
-
-
-
-# Don't even try to read the following code. Run it and it will take forever.
-# Just use this to practice getting out of a long running command. 
-# Look for a tiny stop sign in the top right of the console
-for(i in 1:10000){
-  .z <- rnorm(5, i, 2)
-  print(summary(lm(.z ~1)))
-}
-
 
 
 
