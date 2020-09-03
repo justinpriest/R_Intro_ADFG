@@ -61,7 +61,7 @@ myvector
 # As such, it's considered poor practice to reuse variables, always make a new one
 
 # Have you noticed so far that R is case sensitive? 
-# What do you think will happen next? Make your prediction, then run the next line:
+# What do you think will happen next? Make your predictions, then run the next 2 lines:
 Myvector
 Factor(c("Male", "Female", "Female"))
 
