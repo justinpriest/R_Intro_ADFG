@@ -1,0 +1,174 @@
+---
+title: "Tutorial 2 - Basics"
+tutorial:
+  id: "com.example.tutorials.basics"
+  version: 0.0.1
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Learn the basics of how R works.
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(lubridate)
+library(here)
+
+tutorial_options(exercise.timelimit = 60) # prevent overly complex code from running
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r loadpkg, echo=FALSE, message=FALSE, warning=FALSE}
+
+# Now load in some data that we'll use later
+tannercrab <- read_csv("../../data/OceanAK_CrabSurvey_2018-2020_Specimens.csv") %>%
+  rename("Count" = "Number Of Specimens",
+         "Width" = "Width Millimeters",
+         "Chela" = "Chela Height Millimeters",
+         "SurveyStartDate" = "Trip Start Date") %>%
+  mutate(SurveyStartDate = ymd(as.POSIXct(SurveyStartDate, format = "%m/%d/%Y", tz = "US/Alaska"))) %>%
+  dplyr::select(Year, SurveyStartDate, Location, Species, Sex, Width, Chela, Count) %>%
+  filter(Species == "Bairdi tanner crab", Count >= 1, !is.na(Width)) # Keep only tanners & remove 0s
+```
+
+# ADF&G learnr Tutorial
+## Basic R Programming 
+
+### Exercise 1 {data-allow-skip=TRUE}
+
+*Use this space to work through code to understand the concepts we've gone over. Go slow and try to get the correct answers. This is not graded and is not a race, use this space to familiarize yourself with how R works. Once you are finished, just close out of this before opening a new tutorial.*
+
+Write the R code required to add two plus two:
+
+```{r twoplus, exercise=TRUE, exercise.lines = 5}
+
+```
+
+```{r twoplus-solution}
+2+2
+```
+
+### Exercise 2
+
+*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
+
+Complete the code to concatenate numbers 1 through 5 together to make a vector called "myvector" then print "myvector" to the screen. 
+
+```{r make-vector, exercise=TRUE, exercise.lines = 5}
+myvector <- (, , , , )
+```
+
+```{r make-vector-hint}
+c(1, 2, 3, 4 ,5)
+```
+
+```{r make-vector-solution}
+myvector <- c(1, 2, 3, 4, 5)
+```
+
+## Dataframes
+
+### Dataframes - Exercise 1
+
+*In this exercise we will use a dataframe that I've already loaded for you. This dataframe is called "tannercrab".*
+
+Modify the following code to show only the top 10 rows:
+
+```{r print-limit, exercise = TRUE, exercise.eval=TRUE, exercise.lines = 5}
+tannercrab
+```
+
+```{r print-limit-solution}
+head(tannercrab, n=10)
+```
+
+<div id="print-limit-hint">
+**Hint:** Modify head() 
+</div>
+
+
+### Dataframes - Exercise 2
+
+*Let's work with just the width of the crab*
+  
+  Using "$" select just the column named "Width"
+
+```{r columnWidth, exercise = TRUE, exercise.lines = 5}
+
+```
+
+```{r columnWidth-solution}
+tannercrab$Width
+```
+<div id="columnWidth-hint">
+  **Hint:** tannercrab$
+  </div>
+  
+  
+  
+  ### Dataframes - Exercise 3
+  
+  *Now let's do some very basic analysis.*
+
+What is the mean width of all tanner crab?
+
+```{r meanwidth, exercise = TRUE, exercise.lines = 5}
+mean()
+```
+
+```{r meanwidth-solution}
+mean(tannercrab$Width)
+```
+<div id="meanwidth-hint">
+**Hint:** mean(tannercrab$Width)
+</div>
+
+
+
+### Dataframes - Exercise 4
+
+*Neat! Let's now look at the mean Chela width.*
+  
+  Take the mean of column "Chela". (NOTE! There are many NAs in here!)
+
+```{r chelamean, exercise = TRUE, exercise.lines = 5}
+mean(tannercrab$Chela)
+```
+
+```{r chelamean-solution}
+mean(tannercrab$Chela, na.rm = TRUE)
+```
+
+<div id="chelamean-hint">
+  **Hint:** Do you need an argument in mean() of na.rm = TRUE?.
+</div>
+  
+
+
+## Quiz
+
+*Let's review some of the concepts we've gone over.*
+
+Some questions to verify that you understand the purposes of various base and recommended R packages:
+
+```{r quiz-basics}
+quiz(
+  question("Which package contains functions for installing other R packages?",
+    answer("base"),
+    answer("tools"),
+    answer("utils", correct = TRUE),
+    answer("codetools")
+  ),
+  question("Which of the R packages listed below are used to create plots?",
+    answer("lattice", correct = TRUE),
+    answer("tools"),
+    answer("stats"),
+    answer("grid", correct = TRUE)
+  )
+)
+```
+

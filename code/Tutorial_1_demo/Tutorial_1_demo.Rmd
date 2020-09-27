@@ -1,0 +1,103 @@
+---
+title: "Tutorial 1 - Demo"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  This will walk you through the basics of how "learnr" works
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+
+
+tutorial_options(exercise.timelimit = 60) # prevent overly complex code from running
+knitr::opts_chunk$set(echo = FALSE)
+
+set.seed(888)
+x <- seq(1:10)
+y <- seq(from=10, to=20, by=2)
+example_df <- data.frame(column1 = x, column2 = round(runif(10, 0, 100), 0))
+
+
+```
+
+
+## Basic R Programming 
+
+### Exercise 1 {data-allow-skip=TRUE}
+
+*This is a simple "app" that I wrote to go through some of the exercises we've just reviewed. In each code chunk, you can evaluate the line in R by clicking "Run Code" or just like in RStudio, you can type "Ctrl+Enter". Go slow and try to get the correct answers. If you want to see the hints or solutions, check those. This is not graded and is not a race, use this space to familiarize yourself with how R works. Once you are finished, just close out of this before opening a new tutorial.*
+
+*Each choice on the left will be for different learning sections.* 
+
+Enter code below and evaluate it to see the results. Add any two numbers together.
+
+```{r addition, exercise=TRUE, exercise.lines = 3}
+
+```
+
+```{r addition-solution}
+1+1
+```
+
+### Exercise 2
+
+*Some exercises will have code in them that won't run as is! Change the code to run and compare your answers to the solutions provided.*
+
+Select the 3rd column of the dataframe "example_df"
+
+```{r dataframe-colselect, exercise=TRUE, exercise.lines = 5}
+example_df
+```
+
+```{r dataframe-colselect-hint}
+example_df[]
+```
+
+```{r dataframe-colselect-solution}
+example_df[,3]
+```
+
+## Section 2
+
+### Exercise 1
+
+*The exercises will get progressively harder. Again, do not race through them, but take your time to compare your answers to the solutions. If you get stuck at any time, you can always start over from the beginning by clicking "Start Over" on the left.*
+
+Multiply vectors x and y. Before evaluating, check what the values are for each. What do you think will be the result?
+
+```{r multiply-vectors, exercise=TRUE}
+
+```
+
+```{r multiply-vectors-solution}
+x*y
+```
+
+## Quiz
+
+*There will also be be quizzes at the end to self-evaluate your progress. I will not see answers to "learnr" quizzes so if there is a section that you struggle with, please message me!*
+
+Some questions to verify that you understand the purposes of various base and recommended R packages:
+
+```{r quiz-basics}
+quiz(
+  question("In which town is ADF&G headquarters located?",
+    answer("Sitka"),
+    answer("Ketchikan"),
+    answer("Juneau", correct = TRUE),
+    answer("Petersburg")
+  ),
+  question("Select all of the following correct answers. ADF&G manages harvest on the following species:",
+    answer("Chinook salmon", correct = TRUE),
+    answer("Pacific halibut"),
+    answer("Rough-skinned newt"),
+    answer("Tanner crab", correct = TRUE)
+  )
+)
+```
+
