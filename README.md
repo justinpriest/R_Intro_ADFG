@@ -1,5 +1,5 @@
 # R_Intro_ADFG
-Short intro course for learning the basics of R, tailored for ADF&amp;G colleagues
+Short intro course for learning the basics of R, tailored for ADF&G colleagues
 
 ## Agenda
 This course will be split over two days of approximately 4 hours each day.
