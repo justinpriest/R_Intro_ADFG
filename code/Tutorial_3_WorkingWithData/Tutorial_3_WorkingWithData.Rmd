@@ -133,7 +133,7 @@ str(exampledf)
 
 ### Data - Exercise 4
 
-### Quiz
+## Quiz
 
 *Now check your knowledge to make sure that you are retaining it. This is only self-scored.*
 Answer the following:
