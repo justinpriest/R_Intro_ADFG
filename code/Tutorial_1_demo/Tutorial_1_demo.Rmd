@@ -82,7 +82,7 @@ x*y
 
 *There will also be be quizzes at the end to self-evaluate your progress. I will not see answers to "learnr" quizzes so if there is a section that you struggle with, please message me!*
 
-Some questions to verify that you understand the purposes of various base and recommended R packages:
+Some questions might have more than one correct answer:
 
 ```{r quiz-basics}
 quiz(

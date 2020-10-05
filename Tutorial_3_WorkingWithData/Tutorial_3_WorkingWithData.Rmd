@@ -1,0 +1,170 @@
+---
+title: "Tutorial 3 - Working With Your Data"
+tutorial:
+  id: "com.example.tutorials.WorkingWithData"
+  version: 0.0.1
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Learn how to import and modify data.
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(lubridate)
+tutorial_options(exercise.timelimit = 60) # prevent overly complex code from running
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r loaddata, echo=FALSE, message=FALSE, warning=FALSE}
+exampledf <- data.frame(sex = c("Male", "Male", "Female", "Male", "Female", "Female", "Male", "Male", "Female", "Male", "Female", "Male", "Female"), 
+                        length = c(110, 112, 90, 89, 107, 104, 98, 102, 92, 88, 102, 109, 99), 
+                        weight = c(3, 3.4, 2.4, 2.5, 3.0, 2.9, 2.8, 2.8, 2.3, 2.3, 2.7, 3.1, 2.7),
+                        age = c(2, 2, 1, 1, 2, 2, 2, 2, 1, 1, 2, 2, 2),
+                        statarea = c(115, 115, 101, 115, 115, 101, 115, 115, 101, 101, 115, 101, 101))
+
+```
+
+# Working With _Your_ Data
+
+## Directories
+### Directories - Exercise 1
+
+*Knowing what folder that R is looking in is essential to importing data.*
+
+Write the R code required to show your working directory:
+
+```{r show-dir, exercise=TRUE, exercise.lines = 5}
+
+```
+
+```{r show-dir-solution}
+getwd()
+```
+
+
+### Directories - Exercise 2
+*Although we can't change our working directory in R while we're in this "learnr" environment, we can simulate it a bit.*
+
+Now write the R code required to change your working directory:
+
+```{r set-dir, exercise=TRUE, exercise.lines = 5}
+
+```
+
+```{r set-dir-solution}
+setwd()
+```
+
+
+### Directories - Review
+It is *very* common to have "file not found" errors! Make sure to read the errors closely. A wrong directory or misspelled file name error would probably read similar to:
+"Warning message:
+In file(file, "rt") : cannot open file 'groundfishdata_2020.csv': No such file or directory"
+
+
+
+## Packages
+### Packages - Exercise 1
+
+*To extend the useability of R, we can load other packages. This will let us use other functions that aren't present in base R. Let's practice loading new packages.*
+
+Load the library "dplyr"
+
+```{r load-library, exercise=TRUE, exercise.lines = 5}
+
+```
+
+```{r load-library-solution}
+library(dplyr)
+
+```
+
+
+### Packages - Exercise 2
+
+*Now that we have a package loaded we can use it. *
+
+Use the function `filter()` from the library "dplyr" to filter the dataframe `exampledf` to only keep the rows from fish that where `sex=="Female"`. 
+```{r use-dplyr, exercise=TRUE, exercise.eval=TRUE, exercise.lines = 5}
+library(dplyr)
+exampledf
+```
+
+```{r use-dplyr-solution}
+library(dplyr)
+filter(exampledf, sex=="Female")
+```
+
+
+### Packages - Exercise 2 - Review
+We can only use a function from a package after we've loaded it. For this reason, by convention we usually load all the packages needed for a script at the top of a file. 
+
+
+
+
+## Data Import & Cleanup 
+
+What is tidy data?
+
+### Data - Exercise 1
+
+*You'll also need to periodically view the structure and layout of your data. While these checks aren't typically kept in a final script document, they're important steps to perform along the way, especially if you have errors.*
+
+View the structure of the following dataframe:
+
+```{r check-structure, exercise=TRUE, exercise.eval=TRUE}
+exampledf
+
+```
+
+```{r check-structure-solution}
+str(exampledf)
+
+```
+
+### Data - Exercise 2
+
+### Data - Exercise 3
+
+### Data - Exercise 4
+
+### Quiz
+
+*Now check your knowledge to make sure that you are retaining it. This is only self-scored.*
+Answer the following:
+
+```{r quiz-data}
+quiz(
+  question("What are the commands to check and set the R working directory?",
+    answer("checkwd() & setwd()"),
+    answer("getdir() & setdir()"),
+    answer("checkdir() & setdir()"),
+    answer("getwd() & setwd()", correct = TRUE)
+  ),
+  question("What is the function used to load the package 'dplyr'?",
+    answer("load('dplyr')"),
+    answer("load(dplyr)"),
+    answer("library(dplyr)", correct = TRUE),
+    answer("library('dplyr')", correct = TRUE)
+  ),
+    question("Which of the following describes tidy data?",
+    answer("Each column has only one value"),
+    answer("There are no errors in the database after QA/QC"),
+    answer("Each row refers to only one observation", correct = TRUE),
+    answer("The column names are short and very tidy")
+  ),
+    question("Let's say that we have a dataframe named 'newdataframe' with a column 'sex' of values 'male' or 'female'. How do you only keep rows where sex is equal to female?",
+    answer("filter(newdataframe, sex == 'female')", correct = TRUE),
+    answer("filter(newdataframe, sex == female)"),
+    answer("filter(newdataframe, sex = female)"),
+    answer("filter('newdataframe', sex == 'female')"),
+    answer("newdataframe[newdataframe$sex=='female',]", correct = TRUE)
+  )
+)
+```
+

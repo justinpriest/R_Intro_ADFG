@@ -2,7 +2,7 @@
 title: "Tutorial 2 - Basics"
 tutorial:
   id: "com.example.tutorials.basics"
-  version: 0.0.1
+  version: 0.0.2
 output: 
   learnr::tutorial:
     progressive: true
@@ -16,7 +16,7 @@ description: >
 library(learnr)
 library(tidyverse)
 library(lubridate)
-library(here)
+
 
 tutorial_options(exercise.timelimit = 60) # prevent overly complex code from running
 knitr::opts_chunk$set(echo = FALSE)
@@ -41,6 +41,7 @@ tannercrab <- read_csv("../../data/OceanAK_CrabSurvey_2018-2020_Specimens.csv") 
 ### Exercise 1 {data-allow-skip=TRUE}
 
 *Use this space to work through code to understand the concepts we've gone over. Go slow and try to get the correct answers. This is not graded and is not a race, use this space to familiarize yourself with how R works. Once you are finished, just close out of this before opening a new tutorial.*
+*This mini-console is running R, however clicking "Run Code" evaluates everything written in there; in RStudio, we run through it line-by-line.*
 
 Write the R code required to add two plus two:
 
@@ -54,7 +55,7 @@ Write the R code required to add two plus two:
 
 ### Exercise 2
 
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
+*Here's an exercise with some prepopulated code.*
 
 Complete the code to concatenate numbers 1 through 5 together to make a vector called "myvector" then print "myvector" to the screen. 
 
@@ -62,13 +63,20 @@ Complete the code to concatenate numbers 1 through 5 together to make a vector c
 myvector <- (, , , , )
 ```
 
-```{r make-vector-hint}
-c(1, 2, 3, 4 ,5)
-```
 
 ```{r make-vector-solution}
 myvector <- c(1, 2, 3, 4, 5)
+myvector
 ```
+
+<div id="make-vector-hint">
+**Hint:** c(1, 2, 3, 4 ,5)
+</div>
+
+### Exercise 2 - Review
+Woohoo! You can see that the code `myvector <- c(1, 2, 3, 4, 5)` set myvector to be 1 through 5, then when you type `myvector` it prints it to the screen.
+
+
 
 ## Dataframes
 
@@ -95,7 +103,7 @@ head(tannercrab, n=10)
 
 *Let's work with just the width of the crab*
   
-  Using "$" select just the column named "Width"
+Using the `$` operator, select from the `tannercrab` dataframe just the column named "Width"  
 
 ```{r columnWidth, exercise = TRUE, exercise.lines = 5}
 
@@ -104,13 +112,14 @@ head(tannercrab, n=10)
 ```{r columnWidth-solution}
 tannercrab$Width
 ```
+
 <div id="columnWidth-hint">
   **Hint:** tannercrab$
-  </div>
+</div>
   
   
   
-  ### Dataframes - Exercise 3
+### Dataframes - Exercise 3
   
   *Now let's do some very basic analysis.*
 
@@ -128,12 +137,15 @@ mean(tannercrab$Width)
 </div>
 
 
+### Dataframes - Exercise 3 - Review
+Did you get 126.9? GREAT JOB!
+
 
 ### Dataframes - Exercise 4
 
-*Neat! Let's now look at the mean Chela width.*
+*Let's now look at the mean Chela width.*
   
-  Take the mean of column "Chela". (NOTE! There are many NAs in here!)
+Take the mean of column "Chela". (NOTE! There are many NAs in here!)
 
 ```{r chelamean, exercise = TRUE, exercise.lines = 5}
 mean(tannercrab$Chela)
@@ -144,9 +156,36 @@ mean(tannercrab$Chela, na.rm = TRUE)
 ```
 
 <div id="chelamean-hint">
-  **Hint:** Do you need an argument in mean() of na.rm = TRUE?.
+  **Hint:** Do you need an argument in mean() of na.rm = TRUE?
 </div>
+
+### Dataframes - Exercise 4 Solution
+
+*Solution: * `mean(tannercrab$Chela, na.rm = TRUE)`  
+*As you saw, the * `NA` *caused issues when we took the mean. The solution was to add the argument * `na.rm = TRUE` *to the * `mean()` *function.*
+ *This gives us a mean chela width of about 25.3 mm*
+
+
+
+
+### Dataframes - Exercise 5
+
+*BUG HUNTER*
   
+Whoops! Looks like someone made an error in their code. Fix this to run.
+
+```{r tanner-bug, exercise = TRUE, exercise.lines = 5}
+Mean(Tannercrab$chela, Na.rm = TRUE)
+```
+
+```{r tanner-bug-solution}
+mean(tannercrab$Chela, na.rm = TRUE)
+```
+
+<div id="tanner-bug-hint">
+  **Hint:** There are four capitalization issues
+</div>
+
 
 
 ## Quiz
@@ -157,17 +196,18 @@ Some questions to verify that you understand the purposes of various base and re
 
 ```{r quiz-basics}
 quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
+  question("Which function would you use for taking the mean?",
+    answer("average()"),
     answer("tools"),
-    answer("utils", correct = TRUE),
+    answer("mean()", correct = TRUE),
     answer("codetools")
   ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
+  question("Choose how to select the 7th column named 'Chela' of a dataframe named 'tannercrab':",
+    answer("tannercrab[,7]", correct = TRUE),
+    answer("tannercrab[,column7]"),
+    answer("tannercrab[7,]"),
+    answer("tannercrab$Chela", correct = TRUE),
+    answer("tannercrab[,'Chela']", correct = TRUE)
   )
 )
 ```
