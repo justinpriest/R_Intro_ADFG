@@ -128,10 +128,62 @@ str(exampledf)
 ```
 
 ### Data - Exercise 2
+*Now that you've checked the structure, you noticed that some columns were of type "character". If you do any plotting or analysis, you'll want to make sure that these columns are a categorical variable.*
+
+Fill in the blanks within the function `as.factor()` to make columns `sex` and `statarea` both factors. 
+```{r make-factor, exercise=TRUE}
+exampledf$sex <-as.factor()
+exampledf$statarea <- as.factor()
+
+```
+
+```{r make-factor-solution}
+exampledf$sex <- as.factor(exampledf$sex)
+exampledf$statarea <- as.factor(exampledf$statarea)
+
+```
+
 
 ### Data - Exercise 3
+*Now that you've loaded the data, viewed it, and fixed any structural issues, it is helpful to do some quick plotting.*
+
+Using `plot()`, create a boxplot of `sex` by `length`. 
+Next, create a histogram of the lengths using `hist()`. 
+
+```{r basic-plot, exercise=TRUE}
+exampledf$sex <- as.factor(exampledf$sex)
+exampledf$statarea <- as.factor(exampledf$statarea)
+exampledf
+plot()
+hist()
+
+```
+
+```{r basic-plot-solution}
+exampledf$sex <- as.factor(exampledf$sex)
+exampledf$statarea <- as.factor(exampledf$statarea)
+plot(exampledf$sex, exampledf$length)
+hist(exampledf$length)
+
+```
+
 
 ### Data - Exercise 4
+*In this learnr tutorial environment, the code to import a .csv file is a little convoluted so we won't do that here. But it's necessary to know how to do this. So, the following code will NOT run but we'll practice anyways.*
+
+Pretend that there is a file named "managementsurveys_2019.csv" in the folder `data` under your working directory. Import this file. 
+```{r import-data, exercise=TRUE}
+
+```
+
+```{r import-data-solution}
+read.csv("data/managementsurveys_2019.csv")
+
+#Alternate Solution
+library(dplyr)
+read_csv("data/managementsurveys_2019.csv")
+```
+
 
 ## Quiz
 
@@ -152,11 +204,22 @@ quiz(
     answer("library(dplyr)", correct = TRUE),
     answer("library('dplyr')", correct = TRUE)
   ),
-    question("Which of the following describes tidy data?",
+  question("Which of the following describes tidy data?",
     answer("Each column has only one value"),
     answer("There are no errors in the database after QA/QC"),
     answer("Each row refers to only one observation", correct = TRUE),
     answer("The column names are short and very tidy")
+  ),
+  question("What is the function to check a dataframe's structure?",
+    answer("order()"),
+    answer("str()", correct = TRUE),
+    answer("check()")
+  ),
+  question("Which two functions can load and read .csv data into R?",
+    answer("read.csv() & read_csv()", correct = TRUE),       
+    answer("read.data() & read_data()"),
+    answer("load() & import()"),
+    answer("grabmydata() & install()")
   ),
     question("Let's say that we have a dataframe named 'newdataframe' with a column 'sex' of values 'male' or 'female'. How do you only keep rows where sex is equal to female?",
     answer("filter(newdataframe, sex == 'female')", correct = TRUE),

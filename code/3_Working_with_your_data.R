@@ -43,6 +43,8 @@ install.packages("NewPackageName") # Replace NewPackageName with whichever packa
 # To load the library, use:
 library(NewPackageName)
 
+# Notice that there are quotes around the package name for installing, but not required for library()
+
 # To call a specific function from a specific package, use two colons: packagename::function()
 # Why would you do this? Maybe the exact same function name is used in two different packages. 
 # For this reason, only load the packages you need
@@ -54,7 +56,6 @@ library(NewPackageName)
 
 
 ## DATA STRUCTURE ##
-
 
 exampledf <- data.frame(sex = c("Male", "Male", "Female", "Male", "Female", "Female", "Male", "Male", "Female"), 
                         length = c(110, 112, 90, 89, 107, 104, 98, 102, 92), 

@@ -1,0 +1,281 @@
+---
+title: "Tutorial 4 - Basic Data Manipulation"
+tutorial:
+  id: "com.example.tutorials.datamanipulation"
+  version: 0.0.1
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Learn how to manipulate and wrangle your data.
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(lubridate)
+tutorial_options(exercise.timelimit = 60) # prevent overly complex code from running
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r data-import, echo=FALSE, message=FALSE, warning=FALSE}
+pinksalmonratio <- read_csv("../../data/OceanAK_PinkSalmonRatio_2000-2020.csv") %>%
+  rename("catchdate" = "Catch Date",
+         "statweek" = "Stat Week",
+         "percentmale" = "Percent Males",	
+         "samplesize" = "Sample Size",
+         "weight_lbs" = "Fish Weight Pounds",	
+         "num_fish_weighed" = "Number of Fish Weighed") %>%
+  mutate(catchdate = ymd(as.POSIXct(catchdate, format = "%m/%d/%Y", tz = "US/Alaska")),
+         Gear = as.factor(Gear),
+         District = as.factor(District)) %>%
+  dplyr::select(-Harvest)
+
+```
+
+## The PIPE
+
+### Pipe - Exercise 1
+
+*One shortcut that comes with dplyr is the pipe operator. This is written as *`%>%`*.  The pipe passes the results of the object/function on the left to the function on the right.*
+*In practice, this is often employed by starting with an existing dataframe, then passing this to a function*
+*E.g., dataframename %>% function()*
+
+Using pipe syntax, re-write the code below to use a pipe:
+
+```{r say-hello-to-your-little-friend, exercise=TRUE, exercise.eval=TRUE}
+head(pinksalmonratio)
+```
+
+```{r say-hello-to-your-little-friend-solution}
+pinksalmonratio %>% head()
+```
+
+### Pipe - Exercise 2
+
+*Any function that requires a* `data=` *can just add the pipe in front to pass an item to it.* 
+
+Similar to before, re-write the code below to pass a :
+
+```{r pipe-str, exercise=TRUE, exercise.lines = 5}
+str(pinksalmonratio)
+
+```
+
+```{r pipe-str-solution}
+pinksalmonratio %>% str()
+
+```
+
+
+## Filtering
+
+### Filter - Exercise 1
+
+*To subset or remove rows of data that we do / don't want, we use the dplyr function* `filter()` *. We can use operators to keep (==), or remove (!=) rows that meet the conditions we set.*
+
+Filter the data to only keep data from 2019:
+
+```{r filter-2019, exercise=TRUE, exercise.eval=TRUE, exercise.lines = 5}
+pinksalmonratio
+```
+
+```{r filter-2019-solution}
+pinksalmonratio %>% filter(Year == 2019)
+```
+
+
+### Filter - Exercise 2
+
+*We can also use multiple criteria*
+
+Filter the data to only keep data from 2019 and where `statweek` is greater than 30:
+
+```{r filter-2019mult, exercise=TRUE, exercise.eval=TRUE, exercise.lines = 5}
+pinksalmonratio %>% filter(Year == 2019)
+```
+
+```{r filter-2019mult-solution}
+pinksalmonratio %>% filter(Year == 2019, statweek > 30)
+```
+
+
+### Filter - Exercise 3
+
+*Often values of NAs are of interest, either to highlight missing data or to remove NAs from further analysis*
+
+Filter the data to only show our `NA` values from `weight_lbs`:
+```{r filter-weightnas, exercise=TRUE, exercise.lines = 5}
+pinksalmonratio %>% filter(is.na())
+```
+
+```{r filter-weightnas-solution}
+pinksalmonratio %>% filter(is.na(weight_lbs))
+```
+
+
+Filter the data to the subset where District is 101 and that excludes `weight_lbs` values that are `NA`:
+```{r filter-weight_notnas, exercise=TRUE, exercise.lines = 5}
+pinksalmonratio %>% filter(District == "", !is.na())
+```
+
+```{r filter-weight_notnas-solution}
+pinksalmonratio %>% filter(District == "101", !is.na(weight_lbs))
+```
+
+
+### Filter - Exercise 3 - Review
+Did you notice that you needed to put 101 in quotes?? This is because it isn't a number anymore, it's a factor! 
+
+
+### Filter - Exercise 4
+*We can also use operators such as * `|` *(OR),* `&` *(AND)*
+
+Filter the data to the subset where District is 101 OR 102:
+```{r filter-operator, exercise=TRUE, exercise.lines = 5}
+pinksalmonratio %>% filter(District == "" | District == "")
+```
+
+```{r filter-operator-solution}
+pinksalmonratio %>% filter(District == "101" | District == "102")
+```
+
+
+### Filter - Exercise 5
+
+*Finally, we can also use the operator* `%in%` *as a shortcut to filter in a list*
+
+Filter the data to only show Districts from the list of `c("101", "102", "103")` using `%in%`:
+```{r filter-in, exercise=TRUE, exercise.lines = 5}
+pinksalmonratio %>% filter(District)
+```
+
+```{r filter-in-solution}
+pinksalmonratio %>% filter(District %in% c("101", "102", "103"))
+```
+
+
+
+## Selecting and renaming columns
+
+### Rename - Exercise 1
+*Often column names will need to be renamed using * `rename()`
+
+Rename column "District" to "District_fact". If more help is needed, learn more using `?rename`
+```{r rename, exercise=TRUE, exercise.lines = 5}
+pinksalmonratio %>% rename()
+```
+
+```{r rename-solution}
+pinksalmonratio %>% rename("District_fact" = "District")
+```
+
+
+### Select - Exercise 1
+*Another tool that we use is to keep or drop columns using * `select()`
+
+Only keep columns "Year" and "percentmale". 
+```{r selectkeep, exercise=TRUE, exercise.lines = 5}
+pinksalmonratio %>% select()
+```
+
+```{r selectkeep-solution}
+pinksalmonratio %>% select(Year, percentmale)
+```
+
+
+### Select - Exercise 2
+`select()` *can also be used to drop a column by adding a negative sign in front of a column.*
+
+Drop columns "samplesize", "weight_lbs", "num_fish_weighed". 
+```{r selectdrop, exercise=TRUE, exercise.lines = 5}
+pinksalmonratio %>% select(-)
+```
+
+```{r selectdrop-solution}
+pinksalmonratio %>% select(-samplesize, -weight_lbs, -num_fish_weighed)
+```
+
+
+
+## Mutate
+
+### Mutate - Exercise 1
+
+*Adding a new column is also quite easy in dplyr using * `mutate()`
+
+Add a new column called "Comment" where every value says, "Great sampling!"
+```{r mutate-comment, exercise=TRUE, exercise.lines = 5}
+pinksalmonratio %>% mutate()
+```
+
+```{r mutate-comment-solution}
+pinksalmonratio %>% mutate(Comment = "Great sampling!")
+```
+
+
+### Mutate - Exercise 2
+
+Add a new column called "Gear_District" of both the "Gear" and "District" columns.
+For this exercise, use `paste0()` to paste values together. Play around until it looks correct. 
+```{r mutatenew, exercise=TRUE, exercise.lines = 5}
+pinksalmonratio %>% mutate(Gear_District = )
+```
+
+```{r mutatenew-solution}
+pinksalmonratio %>% mutate(Gear_District = paste0(Gear, District))
+```
+
+
+### Mutate - Exercise 3
+
+For year 2018, find the average weight per fish by dividing column "weight_lbs" by "num_fish_weighed"
+```{r mutate-weight, exercise=TRUE, exercise.lines = 5}
+pinksalmonratio %>% filter(Year == 2018) %>% mutate(meanweight = )
+```
+
+```{r mutate-weight-solution}
+pinksalmonratio %>% filter(Year == 2018) %>% mutate(meanweight = weight_lbs / num_fish_weighed)
+```
+
+
+### Mutate - Exercise 4
+*An if else statement can also be used to conditionally set a value.* 
+*For this exercise, `ifelse()` has 3 arguments. The first argument is the criteria, the second is what to put if the criteria is true, and the third is what to put if it is false.*
+
+Add a new column where if the statweek is 27 or under it is labeled "early", otherwise label it "late"
+```{r mutate-if, exercise=TRUE, exercise.lines = 5}
+pinksalmonratio %>% mutate(earlylateseason = )
+```
+
+```{r mutate-if-solution}
+pinksalmonratio %>% mutate(earlylateseason = ifelse(statweek <= 27, "early", "late"))
+```
+
+
+
+## Quiz
+
+*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
+
+Some questions to verify that you understand the purposes of various base and recommended R packages:
+
+```{r data-manip-quiz}
+quiz(
+  question("Which package contains functions for installing other R packages?",
+    answer("base"),
+    answer("tools"),
+    answer("utils", correct = TRUE),
+    answer("codetools")
+  ),
+  question("Which of the R packages listed below are used to create plots?",
+    answer("lattice", correct = TRUE),
+    answer("tools"),
+    answer("stats"),
+    answer("grid", correct = TRUE)
+  )
+)
+```
+

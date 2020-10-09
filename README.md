@@ -3,10 +3,11 @@
 
 
 ## Course Approach
-Attendees will watch the instructor present the Powerpoint presentation. At the end of each section, students will either work through the scripts that were associated with that section or in a "learnr" tutorial. 
-In the `code` folder there are several groups of scripts. In general, these below to one of three groups. 
+This course does not assume that you have any prior R knowledge, so don't be intimidated!  
+
+Attendees will watch the instructor present the Powerpoint presentation. At the end of each section, students will either work through the scripts that were associated with that section or in a "learnr" tutorial. In the `code` folder there are several groups of scripts. In general, these belong to one of three groups.  
 Tutorials: There are several "learnr" tutorials, each contained in their own folder.  
-Scripts: A stand-alone script that demonstrates Powerpoint concepts, and will either be reviewed together or independently.
+Scripts: A stand-alone script that demonstrates Powerpoint concepts, and will either be reviewed together or independently.  
 Motivating Examples: Completed scripts showcasing several types of analyses, charts, and data types.  
 
 Code is numbered to be associated with each section in the Powerpoint, i.e., concepts covered in Powerpoint Section 2 "Basic Progamming" correspond to code reviewed in `Tutorial_2_Basics` and in the script `2_Basic_Programming.R`  
