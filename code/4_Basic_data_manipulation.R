@@ -2,7 +2,7 @@
 # Justin Priest
 # justin.priest@alaska.gov
 
-#####         SCRIPT 4        ####
+#####         SCRIPT 4        #####
 ##### BASIC DATA MANIPULATION #####
 
 library(tidyverse)
@@ -26,7 +26,7 @@ library(tidyverse)
 ## THE PIPE ##
 # One shortcut that comes with dplyr is the pipe operator. This is written as %>%
 # The pipe passes the results of the object/function on the left to the function on the right
-# This sounds comlicated but makes code much more readable, and less repetitive
+# This sounds complicated but makes code much more readable, and less repetitive
 
 # Here's our code from before, in Base R
 groundfish <- read_csv("data/OceanAK_GroundfishSpecimens_2000-2020.csv") # Read in file from folder "data"
@@ -51,7 +51,7 @@ groundfish <- read_csv("data/OceanAK_GroundfishSpecimens_2000-2020.csv") %>% # R
 
 
 ## KEEPING AND RENAMING COLUMNS  ##
-# Often the first thing to do is to rename columns to be something more memorable and/or useable
+# Often the first thing to do is to rename columns to be something more memorable and/or usable
 # Use function rename() for this.
 groundfish %>% rename("Species_common" = "Species")
 

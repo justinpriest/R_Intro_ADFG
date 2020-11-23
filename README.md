@@ -1,16 +1,16 @@
 # Workshop: Introduction to R for ADF&G Fishery Researchers
-*Short introductory course for learning the basics of R, tailored for ADF&G fishery biologists.*  
+_Short introductory course for learning the basics of R, tailored for ADF&G fishery biologists._  
 
 
 ## Course Approach
 This course does not assume that you have any prior R knowledge, so don't be intimidated!  
 
-Attendees will watch the instructor present the Powerpoint presentation. At the end of each section, students will either work through the scripts that were associated with that section or in a "learnr" tutorial. In the `code` folder there are several groups of scripts. In general, these belong to one of three groups.  
-Tutorials: There are several "learnr" tutorials, each contained in their own folder.  
-Scripts: A stand-alone script that demonstrates Powerpoint concepts, and will either be reviewed together or independently.  
-Motivating Examples: Completed scripts showcasing several types of analyses, charts, and data types.  
+Attendees will watch the instructor present the PowerPoint presentation. At the end of each section, students will either work through the scripts that were associated with that section or in a "learnr" tutorial. In the `code` folder there are several groups of scripts. In general, these belong to one of three groups.  
+**Tutorials:** There are several "learnr" tutorials, each contained in their own folder.  
+**Scripts:** A stand-alone script that demonstrates PowerPoint concepts, and will either be reviewed together or independently.  
+**Motivating Examples:** Completed scripts showcasing several types of analyses, charts, and data types.  
 
-Code is numbered to be associated with each section in the Powerpoint, i.e., concepts covered in Powerpoint Section 2 "Basic Progamming" correspond to code reviewed in `Tutorial_2_Basics` and in the script `2_Basic_Programming.R`  
+Code is numbered to be associated with each section in the PowerPoint, i.e., concepts covered in PowerPoint Section 2 "Basic Programming" correspond to code reviewed in `Tutorial_2_Basics` and in the script `2_Basic_Programming.R`  
 
 To run the learnr tutorials on your own computer you will need to paste the following code into R and then run it:  
 `install.packages(c("learnr", "shiny", "tidyverse", "lubridate"))`  

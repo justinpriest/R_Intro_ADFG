@@ -2,7 +2,7 @@
 # Justin Priest
 # justin.priest@alaska.gov
 
-#####      SCRIPT 2      ####
+#####      SCRIPT 2      #####
 ##### PROGRAMMING BASICS #####
 
 

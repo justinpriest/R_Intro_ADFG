@@ -88,7 +88,7 @@ mydf$col_name1
 
 # Grammar to note for later: 
 # - We use double equals "==" to check for equivalency (not the same as setting equal to, "=")
-# - The exclaimation point "!" means "not", ampersand "&" means "and", bar "|" means "or"
+# - The exclamation point "!" means "not", ampersand "&" means "and", bar "|" means "or"
 
 # To inspect the structure of a dataframe use str()
 str(mydf)
