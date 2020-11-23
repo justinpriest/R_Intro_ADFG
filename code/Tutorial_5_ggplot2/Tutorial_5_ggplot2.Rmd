@@ -1,0 +1,108 @@
+---
+title: "Tutorial 5 - Creating excellent charts with ggplot2"
+tutorial:
+  id: "com.example.tutorials.ggplot2charts"
+  version: 0.0.1
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Learn the basics of using ggplot2.
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(lubridate)
+library(palmerpenguins)
+tutorial_options(exercise.timelimit = 60) # prevent overly complex code from running
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r data-import, echo=FALSE, message=FALSE, warning=FALSE}
+data(package = 'palmerpenguins', penguins)
+
+
+```
+
+## The Palmer Penguin Dataset
+
+```{r look-at-these-penguins, out.width = "90%"}
+knitr::include_graphics("https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png")
+
+```
+
+
+### Data background
+
+*The dataset we'll be working with summarizes a penguin monitoring project at 3 islands in the Palmer Archipelago, Antarctica. Data were collected on 3 different species of penguins.*
+*These data are from the package "palmerpenguins", supported by the Palmer Station LTER.*
+*More info is found at https://allisonhorst.github.io/palmerpenguins/*
+
+Before proceeding to learn how to plot, the first step is reviewing data. View some of the summary data. 
+```{r penguin-data, exercise.eval=TRUE}
+head(penguins)
+
+penguins %>%
+  count(species)
+
+
+```
+You can see that monitoring took place over several years and measurements were of bill length/depth, flipper length, mass, and sex. 
+
+
+## Plotting Penguins
+
+### ggplot2 Basics
+
+*The R package* `ggplot2` *makes plotting very easy. However, there are several parts to know about a ggplot.*
+*First, ggplot lines are added together using a "+".*
+*There are 3 essential parts of a ggplot: data, aesthetic, and geom type. The data source is self-explanatory. The aesthetic is where we tell R aspects such as which column will be the:*
+*- x axis   - y axis   - grouping variable   - line/point color   - the bar/area fill color   - shape*
+*These are set inside the* `ggplot()` command using `aes()`. *So a basic setup might be:*
+`ggplot(data = mydataframe, aes(x = xcolumnname, y = ycolumnname))`
+*Last, we'll need to tell what kind of plot we're going to make. This is set by "geom_xxxx", e.g.,* `geom_line` *, * `geom_point()`*, or * `geom_col()` *for line, scatterplot points, and bar charts. 
+
+
+### Plot Basics - Exercise 1 
+*For this first exercise, we'll plot the variable* `flipper_length_mm` *against 
+
+```{r flipper-ex1, exercise=TRUE, exercise.eval=FALSE}
+ggplot(data = penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g)) +
+
+```
+
+```{r flipper-ex1-solution}
+ggplot(data = penguins,
+                       aes(x = flipper_length_mm,
+                           y = body_mass_g)) +
+  geom_point()
+```
+
+### Quiz
+
+*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
+
+Some questions to verify that you understand the purposes of various base and recommended R packages:
+
+```{r quiz}
+quiz(
+  question("Which package contains functions for installing other R packages?",
+    answer("base"),
+    answer("tools"),
+    answer("utils", correct = TRUE),
+    answer("codetools")
+  ),
+  question("Which of the R packages listed below are used to create plots?",
+    answer("lattice", correct = TRUE),
+    answer("tools"),
+    answer("stats"),
+    answer("grid", correct = TRUE)
+  )
+)
+```
+
