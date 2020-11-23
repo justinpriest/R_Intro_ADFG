@@ -2,7 +2,7 @@
 title: "Tutorial 5 - Creating excellent charts with ggplot2"
 tutorial:
   id: "com.example.tutorials.ggplot2charts"
-  version: 0.0.1
+  version: 0.0.2
 output: 
   learnr::tutorial:
     progressive: true
@@ -16,6 +16,7 @@ description: >
 library(learnr)
 library(tidyverse)
 library(lubridate)
+library(scales)
 library(palmerpenguins)
 tutorial_options(exercise.timelimit = 60) # prevent overly complex code from running
 knitr::opts_chunk$set(echo = FALSE)
@@ -41,38 +42,53 @@ knitr::include_graphics("https://allisonhorst.github.io/palmerpenguins/reference
 *These data are from the package "palmerpenguins", supported by the Palmer Station LTER.*
 *More info is found at https://allisonhorst.github.io/palmerpenguins/*
 
-Before proceeding to learn how to plot, the first step is reviewing data. View some of the summary data. 
-```{r penguin-data, exercise.eval=TRUE}
+Before proceeding to learn how to plot, the first step is reviewing data. Here's what the dataset looks like using `head(penguins)`
+```{r penguin-data-head, exercise.eval=TRUE}
 head(penguins)
+```
 
+Here's the last rows of the dataset using `tail(penguins)`
+```{r penguin-data-tail, exercise.eval=TRUE}
+tail(penguins)
+```
+
+
+And here's a quick count of data by species using `penguins %>% count(species)`
+```{r penguin-data-summ, exercise.eval=TRUE}
 penguins %>%
   count(species)
-
-
 ```
 You can see that monitoring took place over several years and measurements were of bill length/depth, flipper length, mass, and sex. 
 
 
-## Plotting Penguins
 
-### ggplot2 Basics
+## ggplot2 Basics
 
-*The R package* `ggplot2` *makes plotting very easy. However, there are several parts to know about a ggplot.*
-*First, ggplot lines are added together using a "+".*
-*There are 3 essential parts of a ggplot: data, aesthetic, and geom type. The data source is self-explanatory. The aesthetic is where we tell R aspects such as which column will be the:*
-*- x axis   - y axis   - grouping variable   - line/point color   - the bar/area fill color   - shape*
-*These are set inside the* `ggplot()` command using `aes()`. *So a basic setup might be:*
-`ggplot(data = mydataframe, aes(x = xcolumnname, y = ycolumnname))`
-*Last, we'll need to tell what kind of plot we're going to make. This is set by "geom_xxxx", e.g.,* `geom_line` *, * `geom_point()`*, or * `geom_col()` *for line, scatterplot points, and bar charts. 
+*The R package "ggplot2" makes plotting very easy. However, there are several parts to know about a ggplot.*  
+*First, ggplot lines are added together using a "+".*  
+*There are 3 essential parts of a ggplot: data, aesthetic, and geom type. The data source is self-explanatory. The aesthetic is where we tell R aspects such as which column will be the:*  
+*-x axis   -y axis   -grouping variable   -line/point color   -bar/area fill color   -shape*  
+
+*These are set inside the* `ggplot()` *command using* `aes()`. *So the essential setup might be:*  
+`ggplot(data = mydataframe, aes(x = xcolumnname, y = ycolumnname))`  
+
+*Last, we'll need to tell what kind of plot we're going to make. This is set by "geom_xxxx", e.g.,* `geom_line` *, * `geom_point()`*, or * `geom_col()` *for line, scatterplot points, and bar charts. *  
+*Putting this all together, a basic ggplot might look like this:*  
+`ggplot(data = mydataframe, aes(x = xcolumnname, y = ycolumnname)) +`  
+    `geom_point()`
 
 
-### Plot Basics - Exercise 1 
-*For this first exercise, we'll plot the variable* `flipper_length_mm` *against 
 
+## Penguin Flipper Scatterplot
+
+### Flipper Plot - Exercise 1 
+*Let's plot the variable* `flipper_length_mm` *against * `body_mass_g` *to look at the relationship between how flippers increase with body mass. *
+
+Add the correct geom to the plot below to create a scatterplot:
 ```{r flipper-ex1, exercise=TRUE, exercise.eval=FALSE}
 ggplot(data = penguins,
        aes(x = flipper_length_mm,
-           y = body_mass_g)) +
+           y = body_mass_g)) 
 
 ```
 
@@ -83,11 +99,244 @@ ggplot(data = penguins,
   geom_point()
 ```
 
-### Quiz
 
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
 
-Some questions to verify that you understand the purposes of various base and recommended R packages:
+### Flipper Plot - Exercise 2
+*Great job! Now let's learn how to add even more elements to the plot.*  
+
+Add information to the `aes()` to plot a scatterplot, changing the color and shape by each species:  
+```{r flipper-ex2, exercise=TRUE, exercise.eval=FALSE}
+ggplot(data = penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g)) +
+  geom_point()
+
+```
+
+```{r flipper-ex2-solution}
+ggplot(data = penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = species,
+           shape = species)) +
+  geom_point()
+
+```
+
+
+### Flipper Plot - Exercise 3
+*Looking good. Let's keep building our plot and add a few more elements. It's often important to change the shape size and transparency. These are modified by adding* `size=` *and* `alpha=` *where alpha is the percent transparency, ranging 0-1. This information only pertains to a specific geom, so that's where you'd add it.*
+
+Change the point size to 3, and the alpha to 0.8:  
+```{r flipper-ex3, exercise=TRUE, exercise.eval=FALSE}
+ggplot(data = penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = species,
+           shape = species)) +
+  geom_point()
+
+```
+
+```{r flipper-ex3-solution}
+ggplot(data = penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = species,
+           shape = species)) +
+  geom_point(size = 3,
+             alpha = 0.8)
+```
+
+
+
+### Flipper Plot - Exercise 4
+*Now let's modify some of the appearance of the plot! I added * `theme_minimal()` *to the plot to change the default theme. Notice that the background is no longer gray. How about changing these default colors to our own?*  
+*Colors in ggplot can be a little confusing as there are lots of ways to do it. For now, let's set colors manually. Changing plot elements such as color or axes are done using* `scale_`. *To manually set colors you would add* `scale_color_manual()` *and within this add an argument for* `values=c()`*. Make sure to have as many values as color categories!*  
+*Putting this all together, if you had two categories for colors and wanted to make them black and gray, you would add the following:*
+`scale_color_manual(values = c("black","gray"))`
+
+Change the colors for each penguin species to be darkorange, purple, and cyan4. 
+```{r flipper-ex4, exercise=TRUE, exercise.eval=FALSE}
+ggplot(data = penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = species,
+           shape = species)) +
+  geom_point(size = 3,
+             alpha = 0.8) +
+    theme_minimal()
+
+```
+
+```{r flipper-ex4-solution}
+ggplot(data = penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = species,
+           shape = species)) +
+  geom_point(size = 3,
+             alpha = 0.8) + 
+  theme_minimal() +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) 
+
+```
+
+
+
+### Flipper Plot - Exercise 5
+*Let's keep building, we're almost done! We will probably want to change things such as the title, x- and y-axis titles, and legend title. Changing these labels is easily done using * `labs()`.
+*One tricky part here is that usually you can just change the labs() for the legend using either *`color =` *or *`shape =`*. Since we've modified both, we'll have to change the title for both AND make them match.*  
+
+*I've also added a line to the y-axis scale to make the thousands comma appear. This is tricky to remember so I just copied it here for you. *
+
+Change the values in `labs()` to add a descriptive x-axis, y-axis, and legend title.  
+```{r flipper-ex5, exercise=TRUE, exercise.eval=FALSE}
+ggplot(data = penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = species,
+           shape = species)) +
+  geom_point(size = 3,
+             alpha = 0.8) + 
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "Penguin flipper vs body mass",
+       x = "",
+       y = "",
+       color = "Penguin species",
+       shape = "")
+  theme_minimal() 
+```
+
+```{r flipper-ex5-solution}
+ggplot(data = penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = species,
+           shape = species)) +
+  geom_point(size = 3,
+             alpha = 0.8) + 
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "Penguin flipper vs body mass",
+       x = "Flipper length (mm)",
+       y = "Body mass (g)",
+       color = "Penguin species",
+       shape = "Penguin species") +
+  theme_minimal() 
+```
+
+
+
+
+### Flipper Plot - Exercise 6
+*Final completion!*  
+*The last thing that I would recommend changing about this plot is to move the legend inside the plot. This is done using* `theme()`*. I almost always google (or look back at my old code) fpr how to do the following part so don't worry if this part isn't intuitive.*
+*To manually change the legend position, within * `theme()` *use the argument * `legend.position = c(XX, YY)`*, replacing XX and YY with a value between 0 and 1. So for example, *`legend.position = c(0.7, 0.1)` *would put the legend 70% across the the plot horizontally (x) and 10% vertically. Note that this starts from the bottom left (origin).*
+
+Move the legend inside the plot, manually placing it 20% across horizontally and 80% vertically. 
+```{r flipper-ex6, exercise=TRUE, exercise.eval=FALSE}
+ggplot(data = penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = species,
+           shape = species)) +
+  geom_point(size = 3,
+             alpha = 0.8) + 
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "Penguin flipper vs body mass",
+       x = "Flipper length (mm)",
+       y = "Body mass (g)",
+       color = "Penguin species",
+       shape = "Penguin species") +
+  theme_minimal() +
+  theme()
+
+
+```
+
+```{r flipper-ex6-solution}
+ggplot(data = penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = species,
+           shape = species)) +
+  geom_point(size = 3,
+             alpha = 0.8) + 
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "Penguin flipper vs body mass",
+       x = "Flipper length (mm)",
+       y = "Body mass (g)",
+       color = "Penguin species",
+       shape = "Penguin species") +
+  theme_minimal() +
+  theme(legend.position = c(0.2, 0.8))
+
+```
+
+
+
+
+
+### Flipper Plot - Completed!
+Great job! Look at this plot you've created, very neat! We can see that there is a positive relationship between flipper size and body mass, and further that this is different between different species. 
+
+```{r flipper-review, exercise.eval=TRUE, message=FALSE, warning=FALSE}
+ggplot(data = penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = species,
+           shape = species)) +
+  geom_point(size = 3,
+             alpha = 0.8) + 
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "Penguin flipper vs body mass",
+       x = "Flipper length (mm)",
+       y = "Body mass (g)",
+       color = "Penguin species",
+       shape = "Penguin species") +
+  theme_minimal() +
+  theme(legend.position = c(0.2, 0.8))
+
+```
+
+
+
+https://allisonhorst.github.io/palmerpenguins/articles/examples.html
+
+
+
+## Flipper Histogram
+geom_histogram()
+add alpha
+geom_density()
+
+
+## Flipper Boxplot
+geom_boxplot
+geom_jitter()
+
+
+
+## Bill Sizes - Simple Stats
+Add species as a group
+Add color and shape
+Add lm geom_smooth()
+
+
+
+## Facetting Plots
+
+
+## Quiz
+
+*Let's review some of the code we've just learned. A reminder that these scores are not submitted anywhere so they're only for your self-guidance.*
+
+Select the following to test your knowledge of ggplot2:
 
 ```{r quiz}
 quiz(
