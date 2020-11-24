@@ -1,8 +1,8 @@
 ---
-title: "Tutorial 5 - Creating excellent charts with ggplot2"
+title: "Tutorial 5 - Creating charts with ggplot2"
 tutorial:
   id: "com.example.tutorials.ggplot2charts"
-  version: 0.0.3
+  version: 0.5.0
 output: 
   learnr::tutorial:
     progressive: true
@@ -109,12 +109,16 @@ ggplot(data = penguins,
 ```
 
 
+### Flipper Plot - Exercise 2a
+*Let's throw some color in there!*
+*There's two places to add a color argument: *
+- Inside the "geom" (static, color is constant)
+- Inside the aes() where color changes according to a variable.
 
-### Flipper Plot - Exercise 2
-*Great job! Now let's learn how to add even more elements to the plot.*  
+*For this first exercise, set color statically*
 
-Add information to the `aes()` to plot a scatterplot, changing the color and shape by each species:  
-```{r flipper-ex2, exercise=TRUE, exercise.eval=FALSE}
+Add information to the `geom_point()` to plot a scatterplot, with `color="red"`:  
+```{r flipper-ex2a, exercise=TRUE, exercise.eval=FALSE}
 ggplot(data = penguins,
        aes(x = flipper_length_mm,
            y = body_mass_g)) +
@@ -122,7 +126,32 @@ ggplot(data = penguins,
 
 ```
 
-```{r flipper-ex2-solution}
+```{r flipper-ex2a-solution}
+ggplot(data = penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g)) +
+  geom_point(color="red")
+
+```
+
+
+
+
+
+### Flipper Plot - Exercise 2b
+*Great job! Now let's learn how to add even more elements to the plot.*  
+*We just set the color to be static (it doesn't vary). Now let's set the color to vary according to a variable.*
+
+Add information to the `aes()` to plot a scatterplot, changing the color and shape by each species:  
+```{r flipper-ex2b, exercise=TRUE, exercise.eval=FALSE}
+ggplot(data = penguins,
+       aes(x = flipper_length_mm,
+           y = body_mass_g)) +
+  geom_point()
+
+```
+
+```{r flipper-ex2b-solution}
 ggplot(data = penguins,
        aes(x = flipper_length_mm,
            y = body_mass_g,
@@ -777,8 +806,11 @@ ggplot(yearcounts, aes(x = year, y = totalcount)) +
 ## Facetting Plots
 
 ### Facet Plot - Exercise 1
+*One other amazing feature about ggplot is the quick ability to construct a lot of plots together. Using the feature of "facets" can use one variable for each plot. We'll see shortly.*
 
+*For this section, I've excluded those penguins which had an *`NA` *for their sex.*
 
+Instructions: As before, add flipper length along the x-axis, body mass along the y-axis, and color by sex. Use `head()` if you need a reminder for variable names.
 ```{r facet-ex1, exercise=TRUE, exercise.eval=FALSE}
 ggplot(penguins, 
        aes(x = ,
@@ -801,9 +833,9 @@ ggplot(penguins,
 
 
 ### Facet Plot - Exercise 2
-*I added the legend to the bottom*
+*Now let's add our standard labels and theme. Note that I added code to move the legend to the bottom.*
 
-Add labs. Add minimal theme
+Instructions: Add descriptive labels and a minimal theme
 ```{r facet-ex2, exercise=TRUE, exercise.eval=FALSE}
 ggplot(penguins, 
        aes(x = flipper_length_mm,
@@ -829,12 +861,13 @@ ggplot(penguins,
   theme(legend.position = "bottom") 
 ```
 
-
+(
 
 ### Facet Plot - Exercise 3
+*Everything looks good except that we know that we have multiple species in there which throws things off. To address this, we can use a "facet" which essentially will make a new plot for each new value of a variable.*  
+*To tell ggplot to plot by species, within *`facet_wrap()` *write the tilde (~), followed by the variable. There is also * `facet_grid()` *where you can specify the number of columns or rows.*
 
-
-Add facet
+Instructions: Add a facet by species using `facet_wrap()`. 
 ```{r facet-ex3, exercise=TRUE, exercise.eval=FALSE}
 ggplot(penguins, 
        aes(x = flipper_length_mm,
@@ -917,19 +950,31 @@ ggplot(penguins,
 
 Select the following to test your knowledge of ggplot2:
 
-```{r quiz}
+```{r ggplotquiz}
 quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
+  question("If you want the color to vary by species, how would you set this?",
+    answer("ggplot(data=df, aes(x=x,y=y), color='red')"),
+    answer("ggplot(data=df, aes(x=x,y=y, color='species')"),
+    answer("ggplot(data=df, aes(x=x,y=y, color=species))", correct = TRUE),
+    answer("ggplot(data=df, aes(x=x,y=y, color='red'))")
   ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
+  question("In 'scale_x_continuous', which argument would cause numbers '0, 10, 20, 30' to be along the x-axis",
+    answer("breaks = c(0, 10, 20, 30)", correct = TRUE),
+    answer("ticks = (0, 10, 20, 30)"),
+    answer("breaks = 4,"),
+    answer("breaks = seq(from=0, to=30, by=10)", correct = TRUE)
+  ),
+  question("What is the code for faceting by a species",
+    answer("facet_wrap()"),
+    answer("facet_wrap(~species)",correct = TRUE),
+    answer("facet_wrap(by=species)"), 
+    answer("facet_wrap(~'species')")
+  ),
+    question("Inside which element would you add an argument to adjust legend placement?",
+    answer("scale_y_continuous()"),
+    answer("ggplot(aes())"),
+    answer("scale_x_continuous()"), 
+    answer("theme()",correct = TRUE)
   )
 )
 ```

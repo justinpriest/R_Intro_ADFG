@@ -2,7 +2,7 @@
 title: "Tutorial 4 - Basic Data Manipulation"
 tutorial:
   id: "com.example.tutorials.datamanipulation"
-  version: 0.0.5
+  version: 0.5.0
 output: 
   learnr::tutorial:
     progressive: true
