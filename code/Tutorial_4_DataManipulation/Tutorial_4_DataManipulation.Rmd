@@ -2,7 +2,7 @@
 title: "Tutorial 4 - Basic Data Manipulation"
 tutorial:
   id: "com.example.tutorials.datamanipulation"
-  version: 0.0.1
+  version: 0.0.5
 output: 
   learnr::tutorial:
     progressive: true
@@ -190,7 +190,7 @@ pinksalmonratio %>% select(Year, percentmale)
 `select()` *can also be used to drop a column by adding a negative sign in front of a column.*
 
 Drop columns "samplesize", "weight_lbs", "num_fish_weighed". 
-```{r selectdrop, exercise=TRUE, exercise.lines = 5}
+```{r selectdrop, exercise=TRUE, exercise.lines = 5, exercise.eval=FALSE}
 pinksalmonratio %>% select(-)
 ```
 
@@ -207,7 +207,7 @@ pinksalmonratio %>% select(-samplesize, -weight_lbs, -num_fish_weighed)
 *Adding a new column is also quite easy in dplyr using * `mutate()`
 
 Add a new column called "Comment" where every value says, "Great sampling!"
-```{r mutate-comment, exercise=TRUE, exercise.lines = 5}
+```{r mutate-comment, exercise=TRUE, exercise.lines = 5, exercise.eval=FALSE}
 pinksalmonratio %>% mutate()
 ```
 
@@ -220,7 +220,7 @@ pinksalmonratio %>% mutate(Comment = "Great sampling!")
 
 Add a new column called "Gear_District" of both the "Gear" and "District" columns.
 For this exercise, use `paste0()` to paste values together. Play around until it looks correct. 
-```{r mutatenew, exercise=TRUE, exercise.lines = 5}
+```{r mutatenew, exercise=TRUE, exercise.lines = 5, exercise.eval=FALSE}
 pinksalmonratio %>% mutate(Gear_District = )
 ```
 
@@ -232,7 +232,7 @@ pinksalmonratio %>% mutate(Gear_District = paste0(Gear, District))
 ### Mutate - Exercise 3
 
 For year 2018, find the average weight per fish by dividing column "weight_lbs" by "num_fish_weighed"
-```{r mutate-weight, exercise=TRUE, exercise.lines = 5}
+```{r mutate-weight, exercise=TRUE, exercise.lines = 5, exercise.eval=FALSE}
 pinksalmonratio %>% filter(Year == 2018) %>% mutate(meanweight = )
 ```
 
@@ -246,7 +246,7 @@ pinksalmonratio %>% filter(Year == 2018) %>% mutate(meanweight = weight_lbs / nu
 *For this exercise, `ifelse()` has 3 arguments. The first argument is the criteria, the second is what to put if the criteria is true, and the third is what to put if it is false.*
 
 Add a new column where if the statweek is 27 or under it is labeled "early", otherwise label it "late"
-```{r mutate-if, exercise=TRUE, exercise.lines = 5}
+```{r mutate-if, exercise=TRUE, exercise.lines = 5, exercise.eval=FALSE}
 pinksalmonratio %>% mutate(earlylateseason = )
 ```
 

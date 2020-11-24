@@ -2,7 +2,7 @@
 title: "Tutorial 5 - Creating excellent charts with ggplot2"
 tutorial:
   id: "com.example.tutorials.ggplot2charts"
-  version: 0.0.2
+  version: 0.0.3
 output: 
   learnr::tutorial:
     progressive: true
@@ -25,7 +25,9 @@ knitr::opts_chunk$set(echo = FALSE)
 ```{r data-import, echo=FALSE, message=FALSE, warning=FALSE}
 data(package = 'palmerpenguins', penguins)
 
-
+yearcounts <- penguins %>%
+  group_by(species, year) %>%
+  summarise(totalcount = length(bill_length_mm))
 ```
 
 ## The Palmer Penguin Dataset
@@ -47,12 +49,13 @@ Before proceeding to learn how to plot, the first step is reviewing data. Here's
 head(penguins)
 ```
 
+<br>
 Here's the last rows of the dataset using `tail(penguins)`
 ```{r penguin-data-tail, exercise.eval=TRUE}
 tail(penguins)
 ```
 
-
+<br>
 And here's a quick count of data by species using `penguins %>% count(species)`
 ```{r penguin-data-summ, exercise.eval=TRUE}
 penguins %>%
@@ -67,12 +70,18 @@ You can see that monitoring took place over several years and measurements were 
 *The R package "ggplot2" makes plotting very easy. However, there are several parts to know about a ggplot.*  
 *First, ggplot lines are added together using a "+".*  
 *There are 3 essential parts of a ggplot: data, aesthetic, and geom type. The data source is self-explanatory. The aesthetic is where we tell R aspects such as which column will be the:*  
-*-x axis   -y axis   -grouping variable   -line/point color   -bar/area fill color   -shape*  
+- x axis  
+- y axis  
+- grouping variable  
+- line/point color  
+- bar/area fill color  
+- shape  
 
 *These are set inside the* `ggplot()` *command using* `aes()`. *So the essential setup might be:*  
 `ggplot(data = mydataframe, aes(x = xcolumnname, y = ycolumnname))`  
 
 *Last, we'll need to tell what kind of plot we're going to make. This is set by "geom_xxxx", e.g.,* `geom_line` *, * `geom_point()`*, or * `geom_col()` *for line, scatterplot points, and bar charts. *  
+
 *Putting this all together, a basic ggplot might look like this:*  
 `ggplot(data = mydataframe, aes(x = xcolumnname, y = ycolumnname)) +`  
     `geom_point()`
@@ -94,8 +103,8 @@ ggplot(data = penguins,
 
 ```{r flipper-ex1-solution}
 ggplot(data = penguins,
-                       aes(x = flipper_length_mm,
-                           y = body_mass_g)) +
+       aes(x = flipper_length_mm,
+           y = body_mass_g)) +
   geom_point()
 ```
 
@@ -205,7 +214,7 @@ ggplot(data = penguins,
        x = "",
        y = "",
        color = "Penguin species",
-       shape = "")
+       shape = "") +
   theme_minimal() 
 ```
 
@@ -306,30 +315,600 @@ ggplot(data = penguins,
 
 
 
-https://allisonhorst.github.io/palmerpenguins/articles/examples.html
-
-
 
 ## Flipper Histogram
-geom_histogram()
-add alpha
-geom_density()
+Now that we've seen about how flippers relate to body size, let's investigate a little bit more about the data. One great way to check your data is to create a histogram or similar density plots. 
+
+
+### Histograms - Exercise 1
+*We'll now create a histogram of the flipper length data. We will also want to have different fill colors by each species.*
+
+Add a geom for a histogram (use "Help" in RStudio, google, or auto-complete feature). Complete the `fill =` for each penguin species.  
+```{r hist-ex1, exercise=TRUE, exercise.eval=FALSE}
+ggplot(data = penguins, aes(x = flipper_length_mm, fill = )) 
+
+```
+
+```{r hist-ex1-solution}
+ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
+  geom_histogram()
+```
+
+
+
+### Histograms - Exercise 2
+*Now we can see a bit about the data's distribution. However, it's hard to see the trend for each species.*  
+*I've added * `position = "identity"` *to make the values not stacked which will help a bit.*  
+*It's still hard to see the values underneath. We can adjust transparency using * `alpha = `*.*
+
+*We're not going to adjust it here, but play around with the *`breaks` *argument in * `geom_histogram()`*. Try setting breaks = 20 or 40. What happens?*
+
+Set transparency of the histogram to 50% (0.5)
+```{r hist-ex2, exercise=TRUE, exercise.eval=FALSE}
+ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
+  geom_histogram(position = "identity")
+
+```
+
+```{r hist-ex2-solution}
+ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
+  geom_histogram(alpha = 0.5, position = "identity")
+```
+
+
+
+### Histograms - Exercise 3
+*It's starting to become clear! What about setting our colors to be the same color scheme as we did before?*
+
+Manually adjust the scale of the fill values to be "darkorange", "purple", and "cyan4". This can be a tricky step! Google or ask for help if you're stuck.
+```{r hist-ex3, exercise=TRUE, exercise.eval=FALSE}
+ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
+  geom_histogram(alpha = 0.5, position = "identity")
+
+```
+
+```{r hist-ex3-solution}
+ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
+  geom_histogram(alpha = 0.5, position = "identity") +
+  scale_fill_manual(values = c("darkorange","purple","cyan4"))
+```
+
+
+
+### Histograms - Exercise 4
+*Last step! Before we call it complete, let's make the plot finalized.*
+
+Using `labs()` give the plot descriptive x- and y-axis labels, and a nice title. Change the theme to minimal as well. 
+```{r hist-ex4, exercise=TRUE, exercise.eval=FALSE}
+ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
+  geom_histogram(alpha = 0.5, position = "identity") +
+  scale_fill_manual(values = c("darkorange","purple","cyan4"))
+```
+
+```{r hist-ex4-solution}
+ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
+  geom_histogram(alpha = 0.5, position = "identity") +
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Flipper length (mm)",
+       y = "Frequency",
+       title = "Penguin flipper lengths") +
+  theme_minimal()
+```
+
+
+
+### Histogram - Completed!
+That is a clear picture of the data distribution! 
+
+```{r histogram-review, exercise.eval=TRUE, message=FALSE, warning=FALSE}
+ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
+  geom_histogram(alpha = 0.5, position = "identity") +
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Flipper length (mm)",
+       y = "Frequency",
+       title = "Penguin flipper lengths") +
+  theme_minimal()
+```
+
+
+
+### BONUS
+On a similar note, we can change `geom_histogram()` to `geom_density()`. That will smooth the breaks out and produce a nice looking plot. 
+
+```{r densityplot, exercise=TRUE, exercise.eval=FALSE}
+ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
+  geom_histogram(alpha = 0.5, position = "identity") +
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Flipper length (mm)",
+       y = "Frequency",
+       title = "Penguin flipper lengths") +
+  theme_minimal()
+```
+
+```{r densityplot-solution}
+ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
+  geom_density(alpha = 0.5, position = "identity") +
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Flipper length (mm)",
+       y = "Frequency",
+       title = "Penguin flipper lengths") +
+  theme_minimal()
+```
+
+
 
 
 ## Flipper Boxplot
-geom_boxplot
-geom_jitter()
+Another way to investigate the data is to see how the quartiles overlap. We can visually show this by using a boxplot.
+
+
+### Boxplot - Exercise 1
+*We'll now create a boxplot of the flipper length for each species. First, let's think through our data. Boxplots only work when you have a categorical variable and a continuous variable. For this example, we'll put the categorical variable (species) on the x-axis, and continuous variable (flipper_length_mm) on the y-axis.*
+
+Add a geom for a boxplot. In `geom_boxplot()` use the following arguments `width = 0.3` and also `show.legend = FALSE`  
+```{r boxp-ex1, exercise=TRUE, exercise.eval=FALSE}
+ggplot(data = penguins, aes(x = species, y = flipper_length_mm, color = species)) 
+```
+
+```{r boxp-ex1-solution}
+ggplot(data = penguins, aes(x = species, y = flipper_length_mm, color = species)) +
+  geom_boxplot(width = 0.3, show.legend = FALSE)
+```
+
+
+
+### Boxplot - Exercise 2
+*Similar to before, let's keep using the same color scheme and presentation setup.*
+
+Change scale of the color values to be "darkorange", "purple", and "cyan4". Add the minimal theme. Add labels (`labs()`) for x, y, and title. 
+```{r boxp-ex2, exercise=TRUE, exercise.eval=FALSE}
+ggplot(data = penguins, aes(x = species, y = flipper_length_mm, color = species)) +
+  geom_boxplot(width = 0.3, show.legend = FALSE)
+```
+
+```{r boxp-ex2-solution}
+ggplot(data = penguins, aes(x = species, y = flipper_length_mm, color = species)) +
+  geom_boxplot(width = 0.3, show.legend = FALSE) +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  theme_minimal() +
+  labs(x = "Species",
+       y = "Flipper length (mm)",
+       title = "Flipper length by species")
+```
+
+
+
+### Boxplot - Exercise 3
+*Alright, now for the tricky step! Sometimes it is helpful to overlay points on a boxplot to really see your data and grab your viewers attention. But a lot of our data will overlap each other, so what to do?*  
+*One trick is to "jitter" your data. This is like a scatterplot but randomly shifts each point a little bit. We will use*`geom_jitter()` *to add points on top of the boxplot.*  
+*Because we're adding points on top, order matters. Make sure that *`geom_jitter()` *occurs after the *`geom_boxplot()`*.*
+
+Add a jittered scatterplot geom with arguments `alpha = 0.5, show.legend = FALSE, position = position_jitter(width = 0.2, seed = 0)`
+```{r boxp-ex3, exercise=TRUE, exercise.eval=FALSE}
+ggplot(data = penguins, aes(x = species, y = flipper_length_mm, color = species)) +
+  geom_boxplot(width = 0.3, show.legend = FALSE) +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  theme_minimal() +
+  labs(x = "Species",
+       y = "Flipper length (mm)",
+       title = "Flipper length by species")
+```
+
+```{r boxp-ex3-solution}
+ggplot(data = penguins, aes(x = species, y = flipper_length_mm, color = species)) +
+  geom_boxplot(width = 0.3, show.legend = FALSE) +
+  geom_jitter(alpha = 0.5, show.legend = FALSE, position = position_jitter(width = 0.2, seed = 0)) +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  theme_minimal() +
+  labs(x = "Species",
+       y = "Flipper length (mm)",
+       title = "Flipper length by species")
+```
+
+
+
+### Boxplot - Completed!
+This is almost a publication worthy figure
+
+```{r boxplot-review, exercise.eval=TRUE, message=FALSE, warning=FALSE}
+ggplot(data = penguins, aes(x = species, y = flipper_length_mm, color = species)) +
+  geom_boxplot(width = 0.3, show.legend = FALSE) +
+  geom_jitter(alpha = 0.5, show.legend = FALSE, position = position_jitter(width = 0.2, seed = 0)) +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  theme_minimal() +
+  labs(x = "Species",
+       y = "Flipper length (mm)",
+       title = "Flipper length by species")
+```
+
 
 
 
 ## Bill Sizes - Simple Stats
-Add species as a group
-Add color and shape
-Add lm geom_smooth()
+
+
+### Bill Size - Exercise 1
+
+Set the group and color to be grouped/colored by species. Add a scatterplot geom with `size=3` and `alpha=0.8`.
+```{r bill-ex1, exercise=TRUE, exercise.eval=FALSE}
+ ggplot(data = penguins,
+        aes(x = bill_length_mm,
+            y = bill_depth_mm,
+            group = ,
+            color = ))
+```
+
+```{r bill-ex1-solution}
+ ggplot(data = penguins,
+        aes(x = bill_length_mm,
+            y = bill_depth_mm,
+            group = species,
+            color = species)) +
+  geom_point(size = 3,
+             alpha = 0.8)
+```
+
+
+
+### Bill Size - Exercise 2
+*Alright, similar to before, let's clean up the plot and start putting some nice touches on it.*
+
+Add the same species colors manually as in previous exercises. Add the minimal theme. Add labels using `labs()` for x, y, and color. Add the legend inside the plot at `c(0.85, 0.15)`. Hint: look at "Flipper Plot, Exercise 6".
+```{r bill-ex2, exercise=TRUE, exercise.eval=FALSE}
+ ggplot(data = penguins,
+        aes(x = bill_length_mm,
+            y = bill_depth_mm,
+            group = species,
+            color = species)) +
+  geom_point(size = 3,
+             alpha = 0.8)
+```
+
+```{r bill-ex2-solution}
+ ggplot(data = penguins,
+        aes(x = bill_length_mm,
+            y = bill_depth_mm,
+            group = species,
+            color = species)) +
+  geom_point(size = 3,
+             alpha = 0.8) +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Bill length (mm)",
+       y = "Bill depth (mm)",
+       color = "Penguin species") +
+  theme_minimal() +
+  theme(legend.position = c(0.85, 0.15))
+```
+
+
+
+
+### Bill Size - Exercise 3
+*Finally, let's add a quick trend line. This is done using * `geom_smooth()`*. There are several options available for trend lines: *`method = "lm"` *is a linear model and * `method = "loess"` *is a loess smoother. Another useful argument in * `geom_smooth()`*is * `se=FALSE` *to turn off the error band.*  
+*Since we've already grouped by species, * `geom_smooth()` *will automatically produce a line for each species.*
+
+Add a linear trend line. 
+```{r bill-ex3, exercise=TRUE, exercise.eval=FALSE}
+ggplot(data = penguins,
+        aes(x = bill_length_mm,
+            y = bill_depth_mm,
+            group = species,
+            color = species)) +
+  geom_point(size = 3,
+             alpha = 0.8) +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Bill length (mm)",
+       y = "Bill depth (mm)",
+       color = "Penguin species") +
+  theme_minimal() +
+  theme(legend.position = c(0.85, 0.15))
+```
+
+```{r bill-ex3-solution}
+ggplot(data = penguins,
+        aes(x = bill_length_mm,
+            y = bill_depth_mm,
+            group = species,
+            color = species)) +
+  geom_point(size = 3,
+             alpha = 0.8) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Bill length (mm)",
+       y = "Bill depth (mm)",
+       color = "Penguin species") +
+  theme_minimal() +
+  theme(legend.position = c(0.85, 0.15))
+```
+
+
+### Bill Trendlines - Completed!
+Look at those great trend lines. 
+
+```{r bill-review, exercise.eval=TRUE, message=FALSE, warning=FALSE}
+ggplot(data = penguins,
+        aes(x = bill_length_mm,
+            y = bill_depth_mm,
+            group = species,
+            color = species)) +
+  geom_point(size = 3,
+             alpha = 0.8) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Bill length (mm)",
+       y = "Bill depth (mm)",
+       color = "Penguin species") +
+  theme_minimal() +
+  theme(legend.position = c(0.85, 0.15))
+```
+
+
+
+
+## Simple Line Plot
+
+### Line Plot - Exercise 1
+*One more example. For these exercises, we'll use a dataframe I created for you called *`yearcounts` *which is the number of penguins sampled in each year by species. *
+
+View the data and fill in the aes() with the correct variables. Change the line size to 1.5
+```{r lineplot-ex1, exercise=TRUE, exercise.eval=FALSE}
+head(yearcounts)
+
+ggplot(yearcounts, aes(x = year, y = , color = )) +
+  geom_line() +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Year",
+       y = "Total Count",
+       color = "Penguin species") +
+  theme_minimal() 
+```
+
+```{r lineplot-ex1-solution}
+ggplot(yearcounts, aes(x = year, y = totalcount, color = species)) +
+  geom_line(size = 1.5) +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Year",
+       y = "Total Count",
+       color = "Penguin species") +
+  theme_minimal() 
+```
+
+
+### Line Plot - Exercise 2
+*We'll often want to manually tell R where to put the axis breaks. This is done in the * `scale_` *family of functions. In here we can also tell the plot range to be wider to more accurately display the range shown.*  
+*You can either set a sequence of numbers using * `c()` *or by using the sequence function, for example: *`seq(from=0, to=10, by=2)`*. Play around with this or just use c()*
+
+Add y-axis breaks at 0, 10, 20, 30, 40, and 50. Set y-axis limits to range from 0 to 55. Add the legend inside the plot at `c(0.85, 0.15)`.  
+```{r lineplot-ex2, exercise=TRUE, exercise.eval=FALSE}
+seq(from=0, to = 10, by = 2)
+
+ggplot(yearcounts, aes(x = year, y = totalcount, color = species)) +
+  geom_line(size = 1.5) +
+  scale_y_continuous(breaks = , limits = c()) +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Year",
+       y = "Total Count",
+       color = "Penguin species") +
+  theme_minimal() 
+```
+
+```{r lineplot-ex2-solution}
+ggplot(yearcounts, aes(x = year, y = totalcount, color = species)) +
+  geom_line(size = 1.5) +
+  scale_y_continuous(breaks = seq(from = 0, to = 50, by = 10), limits = c(0, 55)) +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Year",
+       y = "Total Count",
+       color = "Penguin species") +
+  theme_minimal() +
+  theme(legend.position = c(0.85, 0.15))
+```
+
+
+### Line Plot - Exercise 3
+*We're close! But look at that x-axis label, yuck! Let's fix that by manually specifying breaks and how to handle the labels.*  
+*I added the argument *`labels = round` to force show labels to be a whole number. 
+
+Set the `breaks` argument in the `scale_x_continuous()` function to only show a break during each year. 
+```{r lineplot-ex3, exercise=TRUE, exercise.eval=FALSE}
+ggplot(yearcounts, aes(x = year, y = totalcount, color = species)) +
+  geom_line(size = 1.5) +
+  scale_x_continuous(, labels = round) + 
+  scale_y_continuous(breaks = seq(from = 0, to = 50, by = 10), limits = c(0, 55)) +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Year",
+       y = "Total Count",
+       color = "Penguin species") +
+  theme_minimal() +
+  theme(legend.position = c(0.85, 0.15))
+```
+
+```{r lineplot-ex3-solution}
+ggplot(yearcounts, aes(x = year, y = totalcount, color = species)) +
+  geom_line(size = 1.5) +
+  scale_x_continuous(breaks = c(2007, 2008, 2009), labels = round) + 
+  scale_y_continuous(breaks = seq(from = 0, to = 50, by = 10), limits = c(0,55)) +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Year",
+       y = "Total Count",
+       color = "Penguin species") +
+  theme_minimal() +
+  theme(legend.position = c(0.85, 0.15))
+```
+
+
+
+### Line Plot  - Completed!
+We did it! 
+
+```{r lineplot-review, exercise.eval=TRUE, message=FALSE, warning=FALSE}
+ggplot(yearcounts, aes(x = year, y = totalcount, color = species)) +
+  geom_line(size = 1.5) +
+  scale_x_continuous(breaks = c(2007, 2008, 2009), labels = round) + 
+  scale_y_continuous(breaks = seq(from = 0, to = 50, by = 10), limits = c(0,55)) +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Year",
+       y = "Total Count",
+       color = "Penguin species") +
+  theme_minimal() +
+  theme(legend.position = c(0.85, 0.15))
+```
+
+
+### BONUS - Troubleshooting
+
+Run the code for the plot below. I can't tell you how many times I've made a plot that looked similar. Whenever you see something that looks like this, immediately realize that you have multiple points per x value. In this case, we have several points per year. (You probably need a grouping variable, or you need to summarize your data further). This is why it's helpful to build plots piece-by-piece like we've been doing today.  
+I forgot to add one tiny little detail. See if you can figure out what is missing. 
+```{r lineplot-troubleshoot, exercise.eval=FALSE}
+ggplot(yearcounts, aes(x = year, y = totalcount)) +
+  geom_line(size = 1.5) +
+  scale_x_continuous(breaks = c(2007, 2008, 2009), labels = round) + 
+  scale_y_continuous(breaks = seq(from = 0, to = 50, by = 10), limits = c(0,55)) +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(x = "Year",
+       y = "Total Count",
+       color = "Penguin species") +
+  theme_minimal() +
+  theme(legend.position = c(0.85, 0.15))
+```
 
 
 
 ## Facetting Plots
+
+### Facet Plot - Exercise 1
+
+
+```{r facet-ex1, exercise=TRUE, exercise.eval=FALSE}
+ggplot(penguins, 
+       aes(x = ,
+           y = ,
+           color = )) +
+  geom_point() +
+  scale_color_manual(values = c("coral2", "turquoise4"), na.translate = FALSE) 
+```
+
+```{r facet-ex1-solution}
+ggplot(penguins, 
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = sex)) +
+  geom_point() +
+  scale_color_manual(values = c("coral2", "turquoise4"), na.translate = FALSE) 
+```
+
+
+
+
+### Facet Plot - Exercise 2
+*I added the legend to the bottom*
+
+Add labs. Add minimal theme
+```{r facet-ex2, exercise=TRUE, exercise.eval=FALSE}
+ggplot(penguins, 
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = sex)) +
+  geom_point() +
+  scale_color_manual(values = c("coral2", "turquoise4"), na.translate = FALSE) +
+  theme(legend.position = "bottom") 
+```
+
+```{r facet-ex2-solution}
+ggplot(penguins, 
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = sex)) +
+  geom_point() +
+  scale_color_manual(values = c("coral2", "turquoise4"), na.translate = FALSE) +
+  labs(title = "Penguin flipper and body mass",
+       x = "Flipper length (mm)",
+       y = "Body mass (g)",
+       color = "Penguin sex") +
+  theme_minimal() +
+  theme(legend.position = "bottom") 
+```
+
+
+
+### Facet Plot - Exercise 3
+
+
+Add facet
+```{r facet-ex3, exercise=TRUE, exercise.eval=FALSE}
+ggplot(penguins, 
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = sex)) +
+  geom_point() +
+  scale_color_manual(values = c("coral2", "turquoise4"), na.translate = FALSE) +
+  labs(title = "Penguin flipper and body mass",
+       x = "Flipper length (mm)",
+       y = "Body mass (g)",
+       color = "Penguin sex") +
+  theme_minimal() +
+  theme(legend.position = "bottom")  
+```
+
+```{r facet-ex3-solution}
+ggplot(penguins, 
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = sex)) +
+  geom_point() +
+  scale_color_manual(values = c("coral2", "turquoise4"), na.translate = FALSE) +
+  labs(title = "Penguin flipper and body mass",
+       x = "Flipper length (mm)",
+       y = "Body mass (g)",
+       color = "Penguin sex") +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  facet_wrap(~species)
+```
+
+
+
+### Facet Plot  - Completed!
+We did it! 
+
+```{r facet-review, exercise.eval=TRUE, message=FALSE, warning=FALSE}
+ggplot(penguins, 
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = sex)) +
+  geom_point() +
+  scale_color_manual(values = c("coral2", "turquoise4"), na.translate = FALSE) +
+  labs(title = "Penguin flipper and body mass",
+       x = "Flipper length (mm)",
+       y = "Body mass (g)",
+       color = "Penguin sex") +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  facet_wrap(~species)
+```
+
+
+### BONUS Facet
+
+
+```{r facet-bonus, exercise.eval=TRUE, message=FALSE, warning=FALSE}
+ggplot(penguins, 
+       aes(x = flipper_length_mm,
+           y = body_mass_g,
+           color = sex)) +
+  geom_point() +
+  scale_color_manual(values = c("coral2", "turquoise4"), na.translate = FALSE) +
+  labs(title = "Penguin flipper and body mass",
+       x = "Flipper length (mm)",
+       y = "Body mass (g)",
+       color = "Penguin sex") +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  facet_wrap(year~species)
+```
+
+
+
 
 
 ## Quiz

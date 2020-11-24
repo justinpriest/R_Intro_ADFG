@@ -50,7 +50,7 @@ getwd()
 ### Directories - Exercise 2
 *Although we can't change our working directory in R while we're in this "learnr" environment, we can simulate it a bit.*
 
-Now write the R code required to change your working directory:
+Now write the R function to change your working directory:
 
 ```{r set-dir, exercise=TRUE, exercise.lines = 5}
 
@@ -117,7 +117,7 @@ What is tidy data?
 
 View the structure of the following dataframe:
 
-```{r check-structure, exercise=TRUE, exercise.eval=TRUE}
+```{r check-structure, exercise=TRUE, exercise.eval=FALSE}
 exampledf
 
 ```
@@ -131,7 +131,7 @@ str(exampledf)
 *Now that you've checked the structure, you noticed that some columns were of type "character". If you do any plotting or analysis, you'll want to make sure that these columns are a categorical variable.*
 
 Fill in the blanks within the function `as.factor()` to make columns `sex` and `statarea` both factors. 
-```{r make-factor, exercise=TRUE}
+```{r make-factor, exercise=TRUE, exercise.eval=FALSE}
 exampledf$sex <-as.factor()
 exampledf$statarea <- as.factor()
 
@@ -150,7 +150,7 @@ exampledf$statarea <- as.factor(exampledf$statarea)
 Using `plot()`, create a boxplot of `sex` by `length`. 
 Next, create a histogram of the lengths using `hist()`. 
 
-```{r basic-plot, exercise=TRUE}
+```{r basic-plot, exercise=TRUE, exercise.eval=FALSE}
 exampledf$sex <- as.factor(exampledf$sex)
 exampledf$statarea <- as.factor(exampledf$statarea)
 exampledf
@@ -171,7 +171,7 @@ hist(exampledf$length)
 ### Data - Exercise 4
 *In this learnr tutorial environment, the code to import a .csv file is a little convoluted so we won't do that here. But it's necessary to know how to do this. So, the following code will NOT run but we'll practice anyways.*
 
-Pretend that there is a file named "managementsurveys_2019.csv" in the folder `data` under your working directory. Import this file. 
+Pretend that there is a file named "managementsurveys_2019.csv" in the folder `data` under your working directory. Write the code that would import this file. 
 ```{r import-data, exercise=TRUE}
 
 ```
