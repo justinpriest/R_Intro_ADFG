@@ -29,8 +29,23 @@ tannercrab <- read_csv("data/OceanAK_CrabSurvey_2018-2020_Specimens.csv") %>%
 tannercrab
 
 
-# First let's do some exploratory visualizations
+# First summarize some of the variables
 
+# table() makes a 1 (rows) or 2 way (rows x columns) table of counts
+table(tannercrab$Width)
+table(tannercrab$Chela)
+table(tannercrab$Location)
+
+table(tannercrab$Year, tannercrab$Location)
+table(tannercrab$Location, tannercrab$Width)
+
+# summary() makes a quartile summary of the range of the variable
+summary(tannercrab$Width)
+summary(tannercrab$Chela)
+
+
+
+# Next, let's do some exploratory visualizations
 tannercrab %>%
   ggplot(aes(x=Location, y=Width)) +
   geom_boxplot()
@@ -90,6 +105,40 @@ chelawidthmodel <- lm(Chela ~ Width, data = tannercrab  %>%
                         filter(between(Chela, 8, 60))) # Ignoring curvature
 
 predict(chelawidthmodel, newdata = data.frame(Width = 100), se.fit = TRUE)
+
+
+
+newdf <- data.frame(Width = seq(from = 90, to = 180, by =1))
+newdf$predictedchela <- predict(chelawidthmodel, newdata = newdf)
+newdf
+
+
+
+
+
+
+
+tcrabsub <- tannercrab %>%
+  mutate(sexcode = ifelse(Sex == "Female", 0, 1))
+
+
+
+sexbinom <- glm(sexcode ~ Width, data = tcrabsub, family = "binomial")
+summary(sexbinom)
+
+
+
+preddf <- data.frame(Width = seq(from = 0, to = 180, by =1))
+preddf$predval <- predict(sexbinom, newdata = preddf, "response")
+preddf
+
+
+ggplot(data = preddf, aes(x=Width, y = predval)) +
+  geom_line() + 
+  geom_point() +
+  geom_point(data = tcrabsub, aes(x=Width, y = sexcode), color = "red", shape = 3)
+
+
 
 
 
