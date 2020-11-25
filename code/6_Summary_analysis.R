@@ -6,7 +6,7 @@
 ##### BASIC ANALYSIS #####
 
 library(tidyverse)
-
+library(lubridate)
 
 
 
@@ -22,8 +22,9 @@ tannercrab <- read_csv("data/OceanAK_CrabSurvey_2018-2020_Specimens.csv") %>%
          "Chela" = "Chela Height Millimeters",
          "SurveyStartDate" = "Trip Start Date") %>%
   mutate(SurveyStartDate = ymd(as.POSIXct(SurveyStartDate, format = "%m/%d/%Y", tz = "US/Alaska")),
-         SurveyMonth = month(SurveyStartDate)) %>%
-  dplyr::select(Year, SurveyStartDate, SurveyMonth, Location, Sex, Width, Chela, Count)
+         SurveyMonth = month(SurveyStartDate),
+         dayofyear = yday(SurveyStartDate)) %>% # This creates the day of the year
+  dplyr::select(Year, SurveyStartDate, dayofyear, SurveyMonth, Location, Sex, Width, Chela, Count)
 
 tannercrab
 
@@ -43,7 +44,7 @@ tannercrab %>%
   geom_boxplot()
 
 tannercrab %>%
-  filter(between(Chela, 8, 60)) %>%
+  filter(between(Chela, 8, 60)) %>% # exclude obvious outliers
   ggplot(aes(x=Width, y=Chela)) +
   geom_point()
 
@@ -72,7 +73,7 @@ tannercrab %>%
             samples = length(Width)) 
 # sd() is the standard deviation 
 # length() is the function for counting how long something is, 
-# In this case, length() counts how long the vector "Width is
+# In this case, length() counts how long the vector "Width" is
 
 # 
 summary(lm(Width ~ Year, data = tannercrab))
@@ -81,6 +82,14 @@ summary(aov(Width ~ as.factor(Year), data = tannercrab))
 
 
 
+summary(lm(Chela ~ Width, data = tannercrab  %>%
+             filter(between(Chela, 8, 60)))) # Ignoring curvature
+
+
+chelawidthmodel <- lm(Chela ~ Width, data = tannercrab  %>%
+                        filter(between(Chela, 8, 60))) # Ignoring curvature
+
+predict(chelawidthmodel, newdata = data.frame(Width = 100), se.fit = TRUE)
 
 
 
