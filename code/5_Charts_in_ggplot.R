@@ -7,6 +7,7 @@
 
 library(tidyverse)
 library(lubridate)
+library(patchwork)
 
 # For the ggplot exercises we'll be using two datasets: 
 #   - pink salmon sex ratio and 
@@ -173,10 +174,46 @@ ggplot(pinksalmonratio, aes(x=statweek, y = percentmales, color = District)) +
 
 
 
+##################################
+#### 6 - Combining and saving ####
+# Many times you will need your plots put together with another plot. 
+# The simplest way to do this is to save your plot as a variable and use the package "patchwork"
+# (Another great package offering much control is "cowplot")
+# Patchwork works with extremely straightforward grammar:
+#   Use a "+" between plot names to add plots side by side
+#   Use a "/" between plot names to add plots stacked vertically
 
 
 
-## Finally, let's use a completely different dataset 
+
+
+# Last, you will most likely need to save your plots! 
+# I recommend saving all figures/R output in the same folder, e.g., "output"
+# The most straightforward way to save ggplot figures is using ggsave()
+# ggsave() needs several arguments including: 
+#    plot = plottosave, 
+#    filename = "output/filesavename.png", 
+#    dpi = 300,           (This is 'dots per inch', i.e., resolution. Large number = large file)
+#    width = 6, 
+#    height = 4, 
+#    units = "in"         (What units are the 6 and 4? inches = "in", centimeters = "cm")
+
+# Example
+# ggsave(plot = plottosave, filename = "output/filesavename.png", 
+#        dpi = 300, width = 6, height = 4, units = "in")
+
+
+
+
+
+
+
+
+
+
+
+
+## As a final exmple, let's use a completely different dataset 
 
 hughsmithesc <- read_csv("data/SEAK_Coho_HughSmithDailyEscapement_1982-2019.csv") %>% #read data
   rename("obsdate" = "Obs Date",                                      # rename variables
@@ -192,11 +229,15 @@ hughsmithesc <- read_csv("data/SEAK_Coho_HughSmithDailyEscapement_1982-2019.csv"
 hughsmithesc  # View dataframe. Check data types
 
 
-hughsmithesc %>%
+hsruntimeplot <- hughsmithesc %>%
   ggplot(aes(x=stddate, y = cummcount, group = Year)) +
   geom_line(color = "darkgray", size = 1.25) + 
   geom_line(data = . %>% filter(Year == 2019), color = "red1", size = 1.25) +
+  labs(x = "", y = "Cumulative Count", 
+       title = "Hugh Smith Cumulative Run Timing",
+       subtitle = "2019 in red") +
   theme_minimal()
+hsruntimeplot
 # This made a line plot with each year a different line. 
 # Then we added a line geom with only one year (2019) on top, and made it red
 
@@ -207,7 +248,7 @@ hughsmithesc %>%
   theme_minimal() +
   facet_wrap(~Year)
 
-
+ggsave(plot = hsruntimeplot, filename = "output/hsruntiming.png", dpi = 300, width =6, height = 4, units = "in")
 
 
 

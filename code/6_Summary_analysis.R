@@ -138,7 +138,7 @@ ggplot(data = preddf, aes(x=Width, y = predval)) +
   geom_point() +
   geom_point(data = tcrabsub, aes(x=Width, y = sexcode), color = "red", shape = 3)
 
-
+# Note 11/24. Rhea says to use comm caught lingcod male vs female
 
 
 
