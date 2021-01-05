@@ -2,7 +2,7 @@
 title: "Tutorial 2 - Basics"
 tutorial:
   id: "com.example.tutorials.basics"
-  version: 0.0.2
+  version: 0.1.0
 output: 
   learnr::tutorial:
     progressive: true
@@ -121,7 +121,7 @@ tannercrab$Width
   
 ### Dataframes - Exercise 3
   
-  *Now let's do some very basic analysis.*
+*Now let's do some very basic analysis.*
 
 What is the mean width of all tanner crab?
 
@@ -167,34 +167,73 @@ mean(tannercrab$Chela, na.rm = TRUE)
 
 
 
-
 ### Dataframes - Exercise 5
 
 *BUG HUNTER*
   
 Whoops! Looks like someone made an error in their code. Fix this to run.
 
-```{r tanner-bug, exercise = TRUE, exercise.lines = 5}
+```{r bug-tanner, exercise = TRUE, exercise.lines = 5}
 Mean(Tannercrab$chela, Na.rm = TRUE)
 ```
 
-```{r tanner-bug-solution}
+```{r bug-tanner-solution}
 mean(tannercrab$Chela, na.rm = TRUE)
 ```
 
-<div id="tanner-bug-hint">
+<div id="bug-tanner-hint">
   **Hint:** There are four capitalization issues
 </div>
 
 
 
-## Quiz
+### Dataframes - Exercise 6
+
+**BUG HUNTER Part 2**
+  
+What the $%@#! There are STILL more errors to fix. Fix this to run.
+
+```{r bug-meanvec, exercise = TRUE, exercise.lines = 5}
+mean(as.vector(c(1 2, 3, 4, 5, NA) na.rm = TRUE)
+```
+
+```{r bug-meanvec-solution}
+mean(as.vector(c(1, 2, 3, 4, 5, NA)), na.rm = TRUE)
+```
+
+<div id="bug-meanvec-hint">
+  **Hint:** There are three comma / parenthesis issues
+</div>
+
+
+
+### Dataframes - Exercise 7
+
+**BUG HUNTER Part 3**
+  
+Oh No! There's another line with some errors in the code. Fix this to run.
+
+```{r bug-vector, exercise = TRUE, exercise.eval=FALSE, exercise.lines = 5}
+c(1 2, 3, 4, 5, NA))
+```
+
+```{r bug-vector-solution}
+c(1, 2, 3, 4, 5, NA)
+```
+
+<div id="bug-vector-hint">
+  **Hint:** There are two comma / parenthesis issues
+</div>
+
+
+
+## Quiz Part 1 
 
 *Let's review some of the concepts we've gone over.*
 
 Some questions to verify that you understand the purposes of various base and recommended R packages:
 
-```{r quiz-basics}
+```{r quiz-basics1}
 quiz(
   question("Which function would you use for taking the mean?",
     answer("average()"),
@@ -208,7 +247,80 @@ quiz(
     answer("tannercrab[7,]"),
     answer("tannercrab$Chela", correct = TRUE),
     answer("tannercrab[,'Chela']", correct = TRUE)
+  ),
+  question("How would you set variable 'fishcolor' to be equal to red, blue, and green?",
+    answer("fishcolor <- red, blue, green "),
+    answer("fishcolor = c('red', 'blue', 'green') ", correct = TRUE),
+    answer("fishcolor <- c('red', 'blue', 'green')", correct = TRUE),
+    answer("fishcolor <- c(red, blue, green)"),
+    answer("'fishcolor' <- c('red, blue, green')")
+  ),
+  question("How would you get help and learn more about a function named cbind()?",
+    answer("help(cbind)", correct = TRUE),
+    answer("Search cbind in help panel on bottom-right of RStudio", correct = TRUE),
+    answer("Google search 'r cbind()'", correct = TRUE),
+    answer("Call 867-5309 and ask for cbind"),
+    answer("?cbind", correct = TRUE)
+  ),
+  question("Select the only line that does NOT have an issue",
+    answer("mean(c(3, 4, 5, 6)"),
+    answer("mean(2, 3, 4, 5)"),
+    answer("mean(c(3, 4, 5, 6))", correct = TRUE),
+    answer("mean(x"),
+    answer("mean((x)")
+  ),
+  question("What is the expected outcome of this code: mean(c(2, 2, 4, 6, 6, NA, 2, 6, 5, 3, 4))",
+    answer("NA", correct = TRUE),
+    answer("4")
   )
+
 )
 ```
+
+
+## Quiz Part 2
+
+*Great job! Now let's try some similar problems.*
+
+Here are few more questions that build on what we just learned:
+
+```{r quiz-basics2}
+quiz(
+  question("Which of the following is a concatenated group of numbers?",
+    answer("makelist(1, 2, 3)"),
+    answer("str(1, 2, 3)"),
+    answer("listed(1, 2, 3)"),
+    answer("c(1, 2, 3)", correct = TRUE)
+  ),
+  question("Select column 'Length' that is the 2nd column in dataframe 'groundfish':",
+    answer("groundfish$Length", correct = TRUE),
+    answer("groundfish[,'Length']", correct = TRUE),
+    answer("groundfish[,column2]"),
+    answer("groundfish[2,]"),
+    answer("groundfish[,2]", correct = TRUE),
+    answer("groundfish(col=2)")
+  ),
+  question("While taking the mean, your answer is returned as NA. What should you add to the code?",
+    answer("completecase = FALSE"),
+    answer("na.rm = TRUE", correct = TRUE),
+    answer("pleaseremoveNAs")
+  ),
+  question("Oh no! Your console shows a '+' and appears to be waiting for you. What caused this and how to you get it back to normal?",
+    answer("Cause: Code is running. Solution: Wait. Wait some more. Wait again?"),
+    answer("Cause: Incorrect voodoo chant. Solution: Burn computer"),
+    answer("Cause: Wrong function name. Solution: Never make a mistake ever again"),
+    answer("Cause: Incomplete code ending. Solution: Press Escape", correct = TRUE)
+  ),
+  question("Which of these is a good variable name",
+    answer("x"),
+    answer("sablefishcatch2019", correct = TRUE),
+    answer("mean"),
+    answer("vector"),
+    answer("dat"),
+    answer("1sablefish")
+  )
+)
+
+```
+
 

@@ -48,6 +48,10 @@ groundfish <- read_csv("data/OceanAK_GroundfishSpecimens_2000-2020.csv") %>% # R
 # When writing your own pipes, I HIGHLY recommend writing them line by line, one at a time. 
 # This will let you know immediately which line isn't working
 
+# One common mistake when first starting out is trying to pipe just one column. 
+# The following will not work:
+groundfish$Species %>% filter(Species == "Sablefish")
+
 
 
 ## KEEPING AND RENAMING COLUMNS  ##
@@ -80,6 +84,7 @@ groundfish %>% filter(is.na(length_mm)) # Show rows where length is unknown
 groundfish %>% filter(!is.na(length_mm)) # Remove rows where length is unknown
 
 
+
 ## ADD A NEW COLUMN ## 
 # We can also add new columns using mutate()
 groundfish %>% mutate(weight_lb = weight_kg * 2.2) # Convert weight to pounds
@@ -91,6 +96,15 @@ groundfish %>% mutate(grams_per_mm = (weight_kg * 1000) / length_mm)
 groundfish %>% mutate(biggie_smalls = ifelse(length_mm >= 700, "Big fish", "Small fish"))
 # This nested if statement checks if a fish is greater than or equal to 700 mm.
 # If it is then it calls them "Big fish", otherwise they are "small fish"
+
+
+
+## OTHER USEFUL FUNCTIONS ## 
+
+distinct()
+# Useful by itself for listing unique values of a variable
+# E.g., in a column of vessel names, list all vessel names
+
 
 
 

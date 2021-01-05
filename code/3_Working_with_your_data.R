@@ -82,8 +82,9 @@ exampledf$statarea <- as.factor(exampledf$statarea)
 
 str(exampledf)
 
-# Now our data is organized with two categorical variables (sex, statarea) and 
-#  three numerical variables(length, weight, age). Age could be also be a category, depending on analysis
+# Now our data is organized with two categorical variables (sex, statarea) and
+# three numerical variables(length, weight, age). Age could be also be a
+# category, depending on analysis
 
 # View the data again
 exampledf
@@ -91,7 +92,20 @@ exampledf
 # This is an example of tidy data and will make analysis easier later
 # To the extent possible, try to avoid using tabled or summarized data. 
 
-# Real quickly, let's just do some quick assessment of our data
+
+
+## DATA TYPES ##
+# It is *very* helpful to understand the different types of your data.
+# This is something that we're all aware of, but don't often think about explicitly. 
+# In general, most data are one of three types of variables: categorical, continuous, or discrete
+# Categorical data are a non-numerical category (e.g., species, color, river)
+# Continuous data are an number that isn't a count or only integers (e.g., length, time)
+# Discrete data are like a hybrid: numbers that can't be split (e.g., count of fish)
+
+
+
+## SUMMARIES! ##
+# Real quickly, let's just do some quick assessment of our example dataset
 summary(exampledf)
 plot(exampledf$length, exampledf$weight)
 plot(exampledf$age, exampledf$weight)

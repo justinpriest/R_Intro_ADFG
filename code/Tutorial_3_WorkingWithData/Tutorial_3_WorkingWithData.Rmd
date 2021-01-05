@@ -2,7 +2,7 @@
 title: "Tutorial 3 - Working With Your Data"
 tutorial:
   id: "com.example.tutorials.WorkingWithData"
-  version: 0.0.1
+  version: 0.0.3
 output: 
   learnr::tutorial:
     progressive: true
@@ -227,6 +227,12 @@ quiz(
     answer("filter(newdataframe, sex = female)"),
     answer("filter('newdataframe', sex == 'female')"),
     answer("newdataframe[newdataframe$sex=='female',]", correct = TRUE)
+  ),
+  question("Which of the following would read in a .csv file named pinkharvest2020 from subfolder data",
+    answer("read_csv('data/OceanAK_PinkSalmonRatio_2000-2020.csv')", correct = TRUE),       
+    #answer("read_csv(data\OceanAK_PinkSalmonRatio_2000-2020.csv)"),
+    answer("read_csv('data\\OceanAK_PinkSalmonRatio_2000-2020.csv')", correct = TRUE), 
+    answer("read_csv(file = 'data/OceanAK_PinkSalmonRatio_2000-2020.csv')", correct = TRUE)
   )
 )
 ```

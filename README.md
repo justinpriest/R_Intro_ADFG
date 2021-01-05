@@ -13,7 +13,7 @@ Attendees will watch the instructor present the PowerPoint presentation. At the 
 Code is numbered to be associated with each section in the PowerPoint, i.e., concepts covered in PowerPoint Section 2 "Basic Programming" correspond to code reviewed in `Tutorial_2_Basics` and in the script `2_Basic_Programming.R`  
 
 To run the learnr tutorials on your own computer you will need to paste the following code into R and then run it:  
-`install.packages(c("learnr", "shiny", "tidyverse", "lubridate", "scales", "palmerpenguins"))`  
+`install.packages(c("learnr", "shiny", "tidyverse", "lubridate", "scales", "palmerpenguins", "patchwork"))`  
 Then opened the desired tutorial script in RStudio and click "Run Document" above the script pane. 
 
 ## Agenda
