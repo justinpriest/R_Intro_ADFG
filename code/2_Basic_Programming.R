@@ -33,10 +33,11 @@ x3 <- c(2,4,6,8,10)
 x3[5]
 
 
-myfirstdf <- data.frame(sex = c("Male", "Male", "Female"), 
-                        length = c(110, 112, 90), 
-                        weight = c(3, 3.4, 2.4),
-                        age = c(2, 2, 1))
+myfirstdf <- data.frame(sex = c("Male", "Male", "Female", "Female"), 
+                        species = c("coho", "coho", "pcod", "herring"),
+                        length = c(110, 112, 90, 82), 
+                        weight = c(3, 3.4, 2.4, 2.1),
+                        age = c(2, 2, 1, 1))
 myfirstdf
 # Now look in the "Environment" Pane in the top right. You should see 'myfirstdf' up there
 # Click on myfirstdf and it will open in a new tab! The same thing in code is:
@@ -52,8 +53,6 @@ str(myfirstdf)
 ## Learning about a function ##
 # Type a question mark before the function or search in 'Help' in the right bottom pane
 ?seq()
-
-
 
 
 

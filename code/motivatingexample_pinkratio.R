@@ -1,3 +1,12 @@
+# R Intro ADF&G
+# Justin Priest
+# justin.priest@alaska.gov
+
+#####  MOTIVATING EXAMPLE 1  #####
+#####       Pink Ratio       #####
+
+# Difficulty: Moderate
+
 library(tidyverse)
 library(lubridate)
 

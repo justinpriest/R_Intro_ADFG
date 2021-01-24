@@ -48,7 +48,7 @@ Enter code below and evaluate it to see the results. Add any two numbers togethe
 
 *Some exercises will have code in them that won't run as is! Change the code to run and compare your answers to the solutions provided.*
 
-Select the 3rd column of the dataframe "example_df"
+Select the 2nd column of the dataframe "example_df"
 
 ```{r dataframe-colselect, exercise=TRUE, exercise.lines = 5}
 example_df
@@ -59,7 +59,7 @@ example_df[]
 ```
 
 ```{r dataframe-colselect-solution}
-example_df[,3]
+example_df[,2]
 ```
 
 ## Section 2

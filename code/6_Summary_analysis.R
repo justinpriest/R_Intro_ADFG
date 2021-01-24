@@ -2,8 +2,8 @@
 # Justin Priest
 # justin.priest@alaska.gov
 
-#####     SCRIPT 6    ####
-##### BASIC ANALYSIS #####
+#####      SCRIPT 6    ####
+#####  BASIC ANALYSIS  #####
 
 library(tidyverse)
 library(lubridate)
@@ -69,9 +69,9 @@ tannercrab %>%
 # Does Width vary by Year
 tannercrab %>%
   group_by(Year) %>%
-  summarise(meanwidth = mean(Width, na.rm = TRUE),
-            sewidth = sd(Width, na.rm = TRUE), 
-            samples = length(Width))
+  summarise(meanwidth = mean(Width, na.rm = TRUE),  # Take mean
+            sewidth = sd(Width, na.rm = TRUE),      # Take standard deviation
+            samples = length(Width))                # Number of samples
 
 # Does Width vary by Location
 tannercrab %>%
@@ -133,10 +133,10 @@ preddf$predval <- predict(sexbinom, newdata = preddf, "response")
 preddf
 
 
-ggplot(data = preddf, aes(x=Width, y = predval)) +
+ggplot(data = preddf, aes(x = Width, y = predval)) +
   geom_line() + 
   geom_point() +
-  geom_point(data = tcrabsub, aes(x=Width, y = sexcode), color = "red", shape = 3)
+  geom_point(data = tcrabsub, aes(x = Width, y = sexcode), color = "red", shape = 3)
 
 # Note 11/24. Rhea says to use comm caught lingcod male vs female
 

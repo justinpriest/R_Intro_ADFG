@@ -132,6 +132,7 @@ groundfish
 # Read in file from folder "data", rename two columns, 
 # Select just a few columns dropping others, and filter to only include sablefish
 # Note that functions "read_csv", "rename", "select", and "filter" are all from the tidyverse
+# We'll learn more about them in the next Section, just ignore them for now :) 
 hist(groundfish$length_mm)
 plot(groundfish$length_mm, groundfish$weight_kg)
 plot(groundfish$Age, groundfish$length_mm)

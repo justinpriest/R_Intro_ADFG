@@ -171,7 +171,7 @@ mean(tannercrab$Chela, na.rm = TRUE)
 
 *BUG HUNTER*
   
-Whoops! Looks like someone made an error in their code. Fix this to run.
+Whoops! Looks like someone made some errors in their code. Fix this to run.
 
 ```{r bug-tanner, exercise = TRUE, exercise.lines = 5}
 Mean(Tannercrab$chela, Na.rm = TRUE)

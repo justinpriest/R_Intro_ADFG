@@ -1,3 +1,13 @@
+# R Intro ADF&G
+# Justin Priest
+# justin.priest@alaska.gov
+
+#####  MOTIVATING EXAMPLE 4  #####
+#####      CRAB MAPPING      #####
+
+# Difficulty: High
+
+
 library(tidyverse)
 library(lubridate)
 library(leaflet)

@@ -6,6 +6,7 @@
 ##### ABOUT R #####
 
 
+
 # Welcome to R! 
 # First off, you should know that a hashtag/pound sign means that every thing to the 
 #  right of it is *not* code. R ignores this but we can leave notes to ourselves!
@@ -99,6 +100,9 @@ rm(myvector)
 
 
 
+# This code randomizes the order of the items we tell it:
+sample(c("Nathan", "Steve", "Julie", "Andy", "Jason", "Tessa", "Whitney", 
+         "Willa", "Jake W", "Jake M", "Chris", "Cathy"))
 
 
 

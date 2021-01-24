@@ -1,3 +1,13 @@
+# R Intro ADF&G
+# Justin Priest
+# justin.priest@alaska.gov
+
+#####  MOTIVATING EXAMPLE 1  #####
+#####      CRAB MAPPING      #####
+
+# Difficulty: Moderate
+
+
 library(tidyverse)
 library(lubridate)
 library(RColorBrewer) # We'll use this library later for some nice colored charts
@@ -48,3 +58,4 @@ pred <- pred %>%
   mutate(predictedsex = exp(predict.glm(sablefish_model, pred)))
 
 pred
+

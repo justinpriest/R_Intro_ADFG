@@ -2,8 +2,8 @@
 # Justin Priest
 # justin.priest@alaska.gov
 
-#####     SCRIPT 5    ####
-##### GGPLOT2 CHARTS #####
+#####      SCRIPT 5    ####
+#####  GGPLOT2 CHARTS  ####
 
 library(tidyverse)
 library(lubridate)
@@ -138,9 +138,10 @@ cohoescapement_sub %>%
 # What just happened here? Well it turns out that there are multiple things to color
 # "color" refers to points and lines. What we want is "fill"
 
-cohoescapement_sub %>%
+cohobarchart <- cohoescapement_sub %>%
   ggplot(aes(x = Year, y = Escapement_Count, group = River, fill = River)) +
   geom_col()
+cohobarchart
 
 # Or if we wanted, we could show the columns plotted side by side (but this is a poor visualization of this!)
 cohoescapement_sub %>%
@@ -148,10 +149,10 @@ cohoescapement_sub %>%
   geom_col(position = "dodge") #position = "dodge" makes the columns side by side
 
 # What about putting a non-number as the x-axis?
-cohoescapement_sub %>%
+cohoboxplot <- cohoescapement_sub %>%
   ggplot(aes(x = River, y = Escapement_Count, fill = River)) +
   geom_boxplot()
-
+cohoboxplot
 
 
 ######################
@@ -183,6 +184,10 @@ ggplot(pinksalmonratio, aes(x=statweek, y = percentmales, color = District)) +
 #   Use a "+" between plot names to add plots side by side
 #   Use a "/" between plot names to add plots stacked vertically
 
+cohoboxplot + cohobarchart
+cohoboxplot / cohobarchart
+cohoboxplot + (cohobarchart / cohobarchart)
+(cohoboxplot + cohobarchart) / cohobarchart
 
 
 
@@ -213,7 +218,7 @@ ggplot(pinksalmonratio, aes(x=statweek, y = percentmales, color = District)) +
 
 
 
-## As a final exmple, let's use a completely different dataset 
+## As a final example, let's use a completely different dataset 
 
 hughsmithesc <- read_csv("data/SEAK_Coho_HughSmithDailyEscapement_1982-2019.csv") %>% #read data
   rename("obsdate" = "Obs Date",                                      # rename variables
@@ -224,8 +229,8 @@ hughsmithesc <- read_csv("data/SEAK_Coho_HughSmithDailyEscapement_1982-2019.csv"
   filter(Maturity == "Adult", # there weren't any jacks but good to stay safe! 
          stddate > as.Date("8/1/2020", format = "%m/%d/%Y")) %>%  # Remove early season
   dplyr::select(Year, obsdate, stddate, everything()) %>% # Reorder the columns for ease of reading
-  group_by(Year) %>%                    # We haven't discussed group_by() yet
-  mutate(cummcount = cumsum(Count)) # This gets us a cumulative sum by year
+  group_by(Year) %>%                    # We haven't discussed group_by() yet but it allows for grouped assessment
+  mutate(cummcount = cumsum(Count)) # This gets us a cumulative sum, grouped by year (so it resets each season)
 hughsmithesc  # View dataframe. Check data types
 
 
@@ -248,7 +253,7 @@ hughsmithesc %>%
   theme_minimal() +
   facet_wrap(~Year)
 
-ggsave(plot = hsruntimeplot, filename = "output/hsruntiming.png", dpi = 300, width =6, height = 4, units = "in")
+#ggsave(plot = hsruntimeplot, filename = "output/hsruntiming.png", dpi = 300, width =6, height = 4, units = "in")
 
 
 
