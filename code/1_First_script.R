@@ -23,7 +23,7 @@
 
 
 # Let's try that now! Evaluate the following lines by clicking "Run" to upper right
-# Or you can type ctrl+Enter (CMD+Enter)
+# Or you can type ctrl+Enter (CMD+Enter on a Mac)
 myvariable = 1 
 myvariable
 # Note that this printed to your console AND it's saved in your "Environment" 
@@ -42,7 +42,8 @@ mynewvector
 factor(c("Male", "Female", "Female"))
 
 # Most commonly we'll use dataframes which are kind of like a bunch of vectors together
-mydf = data.frame(col_name1 = c("Male", "Female", "Female"), col_name2 = c(130, 115, 120))   
+mydf = data.frame(col_name1 = c("Male", "Female", "Female"),
+                  col_name2 = c(130, 115, 120))   
 mydf
 # It's OK to break to the next line. On the line above, press enter after a comma
 # Line breaks MUST be after a comma or something equivalent
@@ -100,12 +101,11 @@ rm(myvector)
 
 
 
+
+
 # This code randomizes the order of the items we tell it:
 sample(c("Nathan", "Steve", "Julie", "Andy", "Jason", "Tessa", "Whitney", 
          "Willa", "Jake W", "Jake M", "Chris", "Cathy"))
-
-
-
 
 
 

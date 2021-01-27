@@ -42,6 +42,9 @@ groundfish <- read_csv("data/OceanAK_GroundfishSpecimens_2000-2020.csv") %>% # R
   dplyr::select(Year, Species, Sex, Age, length_mm, weight_kg) %>%
   filter(Species == "Sablefish")
 
+
+
+
 # Notice how many more fewer times we had to write "groundfish"
 # Another advantage is that all code is evaluated at once without running risk of lines being out of order
 
@@ -81,13 +84,14 @@ groundfish %>% filter(Sex == "Female", Age != 2, length_mm >= 200) # Multiple cr
 # Therefore checking if something is equal to NA will always return an NA. 
 # To get around this, we use the function is.na()
 
-groundfish %>% filter(is.na(length_mm)) # Show rows where length is unknown
-groundfish %>% filter(!is.na(length_mm)) # Remove rows where length is unknown
+problemfish <- groundfish %>% filter(is.na(length_mm)) # Show rows where length is unknown
+groundfish <- groundfish %>% filter(!is.na(length_mm)) # Remove rows where length is unknown
 
 
 # We can also filter to a list of specified items using the shortcut "%in%"
 # This helps keep your code much more readable if you have a long filter list!
 keepyears <- c(2000, 2001, 2006, 2018)
+keepyears
 groundfish %>% filter(Year %in% keepyears)
 
 
@@ -101,40 +105,44 @@ groundfish <- groundfish %>% mutate(comments = "Sample is good") # This makes th
 groundfish
 
 groundfish %>% mutate(grams_per_mm = (weight_kg * 1000) / length_mm)
-groundfish
 
 
 
 # A slightly more complex approach can be to use an if else statement to conditionally set a value
-groundfish <- groundfish %>% mutate(biggie_smalls = ifelse(length_mm >= 700, "Big fish", "Small fish"))
+groundfish <- groundfish %>% 
+  mutate(biggie_smalls = ifelse(length_mm >= 600, "Big fish", "Small fish"))
+groundfish
 # This nested if statement checks if a fish is greater than or equal to 700 mm.
 # If it is then it calls them "Big fish", otherwise they are "small fish"
 
 
 # ifelse about NAs
 # What about if we wanted to make a comment about whether the fish was aged?
-groundfish <- groundfish %>% mutate(comments = ifelse(is.na(Age), "Not aged", "Sample is good"))
+groundfish <- groundfish %>% 
+  mutate(comments = ifelse(is.na(Age), "Not aged", "Sample is good"))
 View(groundfish)
+
+
 
 
 ## REPLACE A VALUE ##
 # Commonly, we'll need to replace a character value with something else
 
-groundfish %>% mutate(biggie_smalls = recode(biggie_smalls, "Small fish" = "small and medium sized"))
+groundfish %>% 
+  mutate(biggie_smalls = recode(biggie_smalls, "Small fish" = "small and medium sized"))
 groundfish %>% mutate(Sex = recode(Sex, "Female" = "F", "Male" = "M"))
-
+groundfish
 
 # Less commonly, previous biologists might have been slackers and used a blank to mean a zero
 # That isn't true for this database (way to go Team Groundfish!). 
 # But for the sake of learning, we'll cover it
-# Function "replace_na() from library "tidyr" has a function made just for this
+# Function "replace_na()" from library "tidyr" has a function made just for this
 
 groundfish_altered <- groundfish %>% mutate(Age = replace_na(Age, 0))
+groundfish_altered
 
 mean(groundfish$Age, na.rm = TRUE)
 mean(groundfish_altered$Age, na.rm = TRUE)
-
-recode(groundfish, biggie_smalls, "Small fish" = "small and medium sized")
 
 
 ## OTHER USEFUL FUNCTIONS ## 
@@ -142,6 +150,13 @@ recode(groundfish, biggie_smalls, "Small fish" = "small and medium sized")
 distinct()
 # Useful by itself for listing unique values of a variable
 # E.g., in a column of vessel names, list all vessel names
+# Won't go through this now, but can check this out later
 
 
 
+#### EXPORTING ####
+# While typically we want to just keep everything *in* R and only work on here, 
+# often its worthwhile to export the data.
+
+# The easiest way to do this is to use the function write.csv()
+#write.csv(groundfish, file = "data/sablefishexport.csv")

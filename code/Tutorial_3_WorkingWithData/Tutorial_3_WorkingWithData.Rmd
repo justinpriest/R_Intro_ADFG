@@ -2,7 +2,7 @@
 title: "Tutorial 3 - Working With Your Data"
 tutorial:
   id: "com.example.tutorials.WorkingWithData"
-  version: 0.0.3
+  version: 0.0.4
 output: 
   learnr::tutorial:
     progressive: true
@@ -12,15 +12,24 @@ description: >
   Learn how to import and modify data.
 ---
 
+
 ```{r setup, include=FALSE}
+#rmarkdown::shiny_prerendered_clean('code/Tutorial_3_WorkingWithData/Tutorial_3_WorkingWithData.Rmd')
+
 library(learnr)
-library(tidyverse)
+library(tidyverse) 
 library(lubridate)
 tutorial_options(exercise.timelimit = 60) # prevent overly complex code from running
 knitr::opts_chunk$set(echo = FALSE)
+
+
+# knitr::opts_chunk$set(cache.extra = list(
+#   R.version, sessionInfo(), format(Sys.Date(), '%Y-%m')
+# ))
+
 ```
 
-```{r loaddata, echo=FALSE, message=FALSE, warning=FALSE}
+```{r loaddata, echo=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
 exampledf <- data.frame(sex = c("Male", "Male", "Female", "Male", "Female", "Female", "Male", "Male", "Female", "Male", "Female", "Male", "Female"), 
                         length = c(110, 112, 90, 89, 107, 104, 98, 102, 92, 88, 102, 109, 99), 
                         weight = c(3, 3.4, 2.4, 2.5, 3.0, 2.9, 2.8, 2.8, 2.3, 2.3, 2.7, 3.1, 2.7),
@@ -38,7 +47,7 @@ exampledf <- data.frame(sex = c("Male", "Male", "Female", "Male", "Female", "Fem
 
 Write the R code required to show your working directory:
 
-```{r show-dir, exercise=TRUE, exercise.lines = 5}
+```{r show-dir, exercise=TRUE, exercise.lines = 5, cache=FALSE}
 
 ```
 
@@ -50,9 +59,8 @@ getwd()
 ### Directories - Exercise 2
 *Although we can't change our working directory in R while we're in this "learnr" environment, we can simulate it a bit.*
 
-Now write the R function to change your working directory:
-
-```{r set-dir, exercise=TRUE, exercise.lines = 5}
+Now write the R function to change your working directory. Note that it will show you an error message. 
+```{r set-dir, exercise=TRUE, exercise.lines = 5, cache=FALSE}
 
 ```
 
@@ -90,7 +98,7 @@ library(dplyr)
 *Now that we have a package loaded we can use it. *
 
 Use the function `filter()` from the library "dplyr" to filter the dataframe `exampledf` to only keep the rows from fish that where `sex=="Female"`. 
-```{r use-dplyr, exercise=TRUE, exercise.eval=TRUE, exercise.lines = 5}
+```{r use-dplyr, exercise=TRUE, exercise.eval=TRUE, exercise.lines = 5, cache=FALSE}
 library(dplyr)
 exampledf
 ```
@@ -130,10 +138,13 @@ str(exampledf)
 ### Data - Exercise 2
 *Now that you've checked the structure, you noticed that some columns were of type "character". If you do any plotting or analysis, you'll want to make sure that these columns are a categorical variable.*
 
-Fill in the blanks within the function `as.factor()` to make columns `sex` and `statarea` both factors. 
+Fill in the blanks within the function `as.factor()` to make columns `sex` and `statarea` both factors. Once completed, the `str()` functions should both show that `sex` and `statarea` are factors!
 ```{r make-factor, exercise=TRUE, exercise.eval=FALSE}
 exampledf$sex <-as.factor()
 exampledf$statarea <- as.factor()
+
+str(exampledf$sex)
+str(exampledf$statarea)
 
 ```
 
@@ -141,6 +152,8 @@ exampledf$statarea <- as.factor()
 exampledf$sex <- as.factor(exampledf$sex)
 exampledf$statarea <- as.factor(exampledf$statarea)
 
+str(exampledf$sex)
+str(exampledf$statarea)
 ```
 
 
@@ -187,7 +200,7 @@ read_csv("data/managementsurveys_2019.csv")
 
 ## Quiz
 
-*Now check your knowledge to make sure that you are retaining it. This is only self-scored.*
+*Now check your knowledge to help solidify what we've learned. This is only self-scored.*
 Answer the following:
 
 ```{r quiz-data}
@@ -230,8 +243,9 @@ quiz(
   ),
   question("Which of the following would read in a .csv file named pinkharvest2020 from subfolder data",
     answer("read_csv('data/OceanAK_PinkSalmonRatio_2000-2020.csv')", correct = TRUE),       
-    #answer("read_csv(data\OceanAK_PinkSalmonRatio_2000-2020.csv)"),
-    answer("read_csv('data\\OceanAK_PinkSalmonRatio_2000-2020.csv')", correct = TRUE), 
+    answer("read_csv(data/OceanAK_PinkSalmonRatio_2000-2020.csv, readfile=TRUE)"),
+    #answer("read_csv(data\OceanAK_PinkSalmonRatio_2000-2020.csv, readfile=TRUE)"),
+    #answer("read_csv('data\\OceanAK_PinkSalmonRatio_2000-2020.csv')", correct = TRUE), #double // doesn't work
     answer("read_csv(file = 'data/OceanAK_PinkSalmonRatio_2000-2020.csv')", correct = TRUE)
   )
 )

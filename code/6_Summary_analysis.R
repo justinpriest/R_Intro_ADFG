@@ -116,16 +116,14 @@ newdf
 
 
 
-
+######################
+###### BINOMIAL ######
 
 tcrabsub <- tannercrab %>%
   mutate(sexcode = ifelse(Sex == "Female", 0, 1))
 
-
-
 sexbinom <- glm(sexcode ~ Width, data = tcrabsub, family = "binomial")
 summary(sexbinom)
-
 
 
 preddf <- data.frame(Width = seq(from = 0, to = 180, by =1))

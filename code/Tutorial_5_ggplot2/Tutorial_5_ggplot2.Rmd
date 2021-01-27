@@ -142,11 +142,13 @@ ggplot(data = penguins,
 *Great job! Now let's learn how to add even more elements to the plot.*  
 *We just set the color to be static (it doesn't vary). Now let's set the color to vary according to a variable.*
 
-Add information to the `aes()` to plot a scatterplot, changing the color and shape by each species:  
+Add to the existing `aes()` arguments to plot a scatterplot, changing the color and shape by each species:  
 ```{r flipper-ex2b, exercise=TRUE, exercise.eval=FALSE}
 ggplot(data = penguins,
        aes(x = flipper_length_mm,
-           y = body_mass_g)) +
+           y = body_mass_g, 
+           color = ,
+           shape = )) +
   geom_point()
 
 ```
@@ -165,7 +167,7 @@ ggplot(data = penguins,
 ### Flipper Plot - Exercise 3
 *Looking good. Let's keep building our plot and add a few more elements. It's often important to change the shape size and transparency. These are modified by adding* `size=` *and* `alpha=` *where alpha is the percent transparency, ranging 0-1. This information only pertains to a specific geom, so that's where you'd add it.*
 
-Change the point size to 3, and the alpha to 0.8:  
+As arguments inside `geom_point()`, change the point size to 3, and the alpha to 0.8:  
 ```{r flipper-ex3, exercise=TRUE, exercise.eval=FALSE}
 ggplot(data = penguins,
        aes(x = flipper_length_mm,
@@ -228,7 +230,7 @@ ggplot(data = penguins,
 
 *I've also added a line to the y-axis scale to make the thousands comma appear. This is tricky to remember so I just copied it here for you. *
 
-Change the values in `labs()` to add a descriptive x-axis, y-axis, and legend title.  
+Change the values in `labs()` to add a descriptive x-axis, y-axis, and legend title. Test what happens when the values in your `labs()` arguments `color =` and `shape =` are the same value or different!  
 ```{r flipper-ex5, exercise=TRUE, exercise.eval=FALSE}
 ggplot(data = penguins,
        aes(x = flipper_length_mm,
@@ -352,9 +354,11 @@ Now that we've seen about how flippers relate to body size, let's investigate a 
 ### Histograms - Exercise 1
 *We'll now create a histogram of the flipper length data. We will also want to have different fill colors by each species.*
 
-Add a geom for a histogram (use "Help" in RStudio, google, or auto-complete feature). Complete the `fill =` for each penguin species.  
+Add a histogram geom (if you can't remember how to do that, use the "Help" in RStudio, google, or auto-complete feature).   
+Complete the `fill =` so that fill varies by each penguin species.  
 ```{r hist-ex1, exercise=TRUE, exercise.eval=FALSE}
-ggplot(data = penguins, aes(x = flipper_length_mm, fill = )) 
+ggplot(data = penguins, aes(x = flipper_length_mm, fill = )) +
+  geom_XXXXX()
 
 ```
 
@@ -372,7 +376,7 @@ ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
 
 *We're not going to adjust it here, but play around with the *`breaks` *argument in * `geom_histogram()`*. Try setting breaks = 20 or 40. What happens?*
 
-Set transparency of the histogram to 50% (0.5)
+Set transparency of the histogram to 0.5 (which is 50% transparent).
 ```{r hist-ex2, exercise=TRUE, exercise.eval=FALSE}
 ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
   geom_histogram(position = "identity")
@@ -389,7 +393,7 @@ ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
 ### Histograms - Exercise 3
 *It's starting to become clear! What about setting our colors to be the same color scheme as we did before?*
 
-Manually adjust the scale of the fill values to be "darkorange", "purple", and "cyan4". This can be a tricky step! Google or ask for help if you're stuck.
+Manually adjust the scale of the fill values to be "darkorange", "purple", and "cyan4", using `scale_fill_manual()`. This can be a tricky step! Google or ask for help if you're stuck.
 ```{r hist-ex3, exercise=TRUE, exercise.eval=FALSE}
 ggplot(data = penguins, aes(x = flipper_length_mm, fill = species)) +
   geom_histogram(alpha = 0.5, position = "identity")
@@ -582,7 +586,7 @@ Set the group and color to be grouped/colored by species. Add a scatterplot geom
 ### Bill Size - Exercise 2
 *Alright, similar to before, let's clean up the plot and start putting some nice touches on it.*
 
-Add the same species colors manually as in previous exercises. Add the minimal theme. Add labels using `labs()` for x, y, and color. Add the legend inside the plot at `c(0.85, 0.15)`. Hint: look at "Flipper Plot, Exercise 6".
+Add the same species colors manually as in previous exercises. Add the minimal theme. Add labels using `labs()` for x, y, and color. Add the legend inside the plot at `c(0.85, 0.15)`. Hint: look at "Penguin Flipper Scatterplot, Exercise 6".
 ```{r bill-ex2, exercise=TRUE, exercise.eval=FALSE}
  ggplot(data = penguins,
         aes(x = bill_length_mm,
@@ -590,7 +594,10 @@ Add the same species colors manually as in previous exercises. Add the minimal t
             group = species,
             color = species)) +
   geom_point(size = 3,
-             alpha = 0.8)
+             alpha = 0.8) +
+  scale_color_manual() +
+  labs() +
+  theme()
 ```
 
 ```{r bill-ex2-solution}
@@ -616,7 +623,7 @@ Add the same species colors manually as in previous exercises. Add the minimal t
 *Finally, let's add a quick trend line. This is done using * `geom_smooth()`*. There are several options available for trend lines: *`method = "lm"` *is a linear model and * `method = "loess"` *is a loess smoother. Another useful argument in * `geom_smooth()`*is * `se=FALSE` *to turn off the error band.*  
 *Since we've already grouped by species, * `geom_smooth()` *will automatically produce a line for each species.*
 
-Add a linear trend line. 
+Add a linear trend line using `geom_smooth()` with arguments `method = "lm"` and `se = FALSE`. 
 ```{r bill-ex3, exercise=TRUE, exercise.eval=FALSE}
 ggplot(data = penguins,
         aes(x = bill_length_mm,
@@ -676,15 +683,29 @@ ggplot(data = penguins,
 
 ## Simple Line Plot
 
-### Line Plot - Exercise 1
+### Line Plot - Intro
 *One more example. For these exercises, we'll use a dataframe I created for you called *`yearcounts` *which is the number of penguins sampled in each year by species. *
 
-View the data and fill in the aes() with the correct variables. Change the line size to 1.5
-```{r lineplot-ex1, exercise=TRUE, exercise.eval=FALSE}
-head(yearcounts)
+Add `yearcounts` to the `head()` function to see what column names there are. 
+```{r lineplot-ex0, exercise=TRUE, exercise.eval=FALSE}
+head()
 
+
+```
+
+```{r lineplot-ex0-solution}
+head(yearcounts)
+```
+
+
+
+### Line Plot - Exercise 1
+*Now that we see the column names let's make a plot! I pasted a template from a previous example to get us started!*  
+
+Fill in the aes() with the correctly named count variable and color by species. Change the line size to 1.5
+```{r lineplot-ex1, exercise=TRUE, exercise.eval=FALSE}
 ggplot(yearcounts, aes(x = year, y = , color = )) +
-  geom_line() +
+  geom_line(size = ) +
   scale_color_manual(values = c("darkorange","purple","cyan4")) +
   labs(x = "Year",
        y = "Total Count",
@@ -788,7 +809,7 @@ ggplot(yearcounts, aes(x = year, y = totalcount, color = species)) +
 
 Run the code for the plot below. I can't tell you how many times I've made a plot that looked similar. Whenever you see something that looks like this, immediately realize that you have multiple points per x value. In this case, we have several points per year. (You probably need a grouping variable, or you need to summarize your data further). This is why it's helpful to build plots piece-by-piece like we've been doing today.  
 I forgot to add one tiny little detail. See if you can figure out what is missing. 
-```{r lineplot-troubleshoot, exercise.eval=FALSE}
+```{r lineplot-troubleshoot, exercise=TRUE, exercise.eval=TRUE}
 ggplot(yearcounts, aes(x = year, y = totalcount)) +
   geom_line(size = 1.5) +
   scale_x_continuous(breaks = c(2007, 2008, 2009), labels = round) + 
@@ -861,11 +882,11 @@ ggplot(penguins,
   theme(legend.position = "bottom") 
 ```
 
-(
+
 
 ### Facet Plot - Exercise 3
 *Everything looks good except that we know that we have multiple species in there which throws things off. To address this, we can use a "facet" which essentially will make a new plot for each new value of a variable.*  
-*To tell ggplot to plot by species, within *`facet_wrap()` *write the tilde (~), followed by the variable. There is also * `facet_grid()` *where you can specify the number of columns or rows.*
+*To tell ggplot to plot by a variable, use function * `facet_wrap()` *To facet plot by species, within *`facet_wrap()` *write the tilde (~), followed by the variable (species in this case). There is also * `facet_grid()` *where you can specify the number of columns or rows.*
 
 Instructions: Add a facet by species using `facet_wrap()`. 
 ```{r facet-ex3, exercise=TRUE, exercise.eval=FALSE}

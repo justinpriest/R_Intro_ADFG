@@ -54,8 +54,7 @@ str(myfirstdf)
 # Type a question mark before the function or search in 'Help' in the right bottom pane
 ?seq()
 
-
-
+seq(from = 10, to = 40, by = 3)
 
 
 

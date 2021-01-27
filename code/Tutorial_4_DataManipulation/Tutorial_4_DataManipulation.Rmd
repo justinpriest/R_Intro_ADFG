@@ -12,9 +12,9 @@ description: >
   Learn how to manipulate and wrangle your data.
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, cache=FALSE}
 library(learnr)
-library(tidyverse)
+library(tidyverse) 
 library(lubridate)
 tutorial_options(exercise.timelimit = 60) # prevent overly complex code from running
 knitr::opts_chunk$set(echo = FALSE)
@@ -55,9 +55,9 @@ pinksalmonratio %>% head()
 
 ### Pipe - Exercise 2
 
-*Any function that requires a* `data=` *can just add the pipe in front to pass an item to it.* 
+*Any function that requires a* `data=` *argument can just add the pipe in front to pass an item to it.* 
 
-Similar to before, re-write the code below to pass a :
+Similar to before, re-write the code below using `%>%` to pass `pinksalmonratio` to `str()`:
 
 ```{r pipe-str, exercise=TRUE, exercise.lines = 5}
 str(pinksalmonratio)
@@ -127,7 +127,8 @@ pinksalmonratio %>% filter(District == "101", !is.na(weight_lbs))
 
 
 ### Filter - Exercise 3 - Review
-Did you notice that you needed to put 101 in quotes?? This is because it isn't a number anymore, it's a factor! 
+Did you 154 rows? Great job!  
+Notice how you needed to put 101 in quotes?? This is because it isn't a number anymore, it's a factor! 
 
 
 ### Filter - Exercise 4
@@ -161,9 +162,10 @@ pinksalmonratio %>% filter(District %in% c("101", "102", "103"))
 ## Selecting and renaming columns
 
 ### Rename - Exercise 1
-*Often column names will need to be renamed using * `rename()`
+*Often column names will need to be renamed using * `rename()`  
+*For `rename()`, put the column names in quotations.  
 
-Rename column "District" to "District_fact". If more help is needed, learn more using `?rename`
+Rename column `District` to `District_fact`. If more help is needed, learn more using `?rename`
 ```{r rename, exercise=TRUE, exercise.lines = 5}
 pinksalmonratio %>% rename()
 ```
@@ -174,9 +176,10 @@ pinksalmonratio %>% rename("District_fact" = "District")
 
 
 ### Select - Exercise 1
-*Another tool that we use is to keep or drop columns using * `select()`
+*Another tool that we use is to keep or drop columns using * `select()`.
+*Note that you do* __not__ *need quotes around columns for *`select()`. 
 
-Only keep columns "Year" and "percentmale". 
+Only keep columns `Year` and `percentmale`. 
 ```{r selectkeep, exercise=TRUE, exercise.lines = 5}
 pinksalmonratio %>% select()
 ```
@@ -189,7 +192,7 @@ pinksalmonratio %>% select(Year, percentmale)
 ### Select - Exercise 2
 `select()` *can also be used to drop a column by adding a negative sign in front of a column.*
 
-Drop columns "samplesize", "weight_lbs", "num_fish_weighed". 
+Drop columns `samplesize`, `weight_lbs`, `num_fish_weighed`. 
 ```{r selectdrop, exercise=TRUE, exercise.lines = 5, exercise.eval=FALSE}
 pinksalmonratio %>% select(-)
 ```
@@ -204,9 +207,10 @@ pinksalmonratio %>% select(-samplesize, -weight_lbs, -num_fish_weighed)
 
 ### Mutate - Exercise 1
 
-*Adding a new column is also quite easy in dplyr using * `mutate()`
+*Adding a new column is also quite easy in dplyr using * `mutate()`  
+*You do not need column names in quotes.*  
 
-Add a new column called "Comment" where every value says, "Great sampling!"
+Add a new column called `Comment` where every value says, "Great sampling!"
 ```{r mutate-comment, exercise=TRUE, exercise.lines = 5, exercise.eval=FALSE}
 pinksalmonratio %>% mutate()
 ```
@@ -218,7 +222,7 @@ pinksalmonratio %>% mutate(Comment = "Great sampling!")
 
 ### Mutate - Exercise 2
 
-Add a new column called "Gear_District" of both the "Gear" and "District" columns.
+Add a new column called `Gear_District` of both the `Gear` and `District` columns.
 For this exercise, use `paste0()` to paste values together. Play around until it looks correct. 
 ```{r mutatenew, exercise=TRUE, exercise.lines = 5, exercise.eval=FALSE}
 pinksalmonratio %>% mutate(Gear_District = )
@@ -231,7 +235,7 @@ pinksalmonratio %>% mutate(Gear_District = paste0(Gear, District))
 
 ### Mutate - Exercise 3
 
-For year 2018, find the average weight per fish by dividing column "weight_lbs" by "num_fish_weighed"
+For year 2018, find the average weight per fish by dividing column `weight_lbs` by `num_fish_weighed`
 ```{r mutate-weight, exercise=TRUE, exercise.lines = 5, exercise.eval=FALSE}
 pinksalmonratio %>% filter(Year == 2018) %>% mutate(meanweight = )
 ```
@@ -255,27 +259,133 @@ pinksalmonratio %>% mutate(earlylateseason = ifelse(statweek <= 27, "early", "la
 ```
 
 
+### Mutate - Exercise 5
+*Mutate is often used to turn a column into a factor.* 
+*The function * `as.factor()` *can be combined with mutate to change a factor into a column. You should be aware of the implications of this!*
 
-## Quiz
+Change column 'Year' to be a factor
+```{r mutate-factor, exercise=TRUE, exercise.lines = 5, exercise.eval=FALSE}
+pinksalmonratio %>% mutate(  = as.factor())
 
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
 
-Some questions to verify that you understand the purposes of various base and recommended R packages:
+```
 
-```{r data-manip-quiz}
+```{r mutate-factor-solution}
+pinksalmonratio %>% mutate(Year = as.factor(Year))
+```
+
+
+### Mutate - Exercise 6
+*Now let's turn a factor back into a number. This can be trickier than it first appears*  
+*Review the results of the first line. Because District was a factor, each factor was simply one of 16 "levels", one for each district. To return it to a number, first convert it to a character,* __then__ *to a number.* 
+
+Turn column District into a numeric value based on its District value. 
+```{r mutate-factorreturn, exercise=TRUE, exercise.lines = 5, exercise.eval=FALSE}
+pinksalmonratio %>% mutate(District = as.numeric(District))
+
+#pinksalmonratio %>% mutate( = as.numeric(as.character()))
+
+
+```
+
+```{r mutate-factorreturn-solution}
+pinksalmonratio %>% mutate(District = as.numeric(as.character(District)))
+```
+
+
+
+
+
+
+
+
+
+## Quiz Part 1
+
+*Here are a few questions to review the code concepts we've covered. These scores are not submitted anywhere so they're only for your self-guidance. If you have a question about any of these answers, please ask.*  
+
+Answer the following:  
+
+```{r data-manip-quiz1}
 quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
+  question("Why should you do data manipulation in R rather than Excel?",
+    answer("You have a record of what changes were implemented", correct = TRUE),
+    answer("Can be easily repeated every time you output data from OceanAK / data is updated", correct = TRUE),
+    answer("Easier & faster for many tasks", correct = TRUE),
+    answer("Because Justin said to")
   ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
+  question("How would you filter dataframe 'pinksalmonratio' to only include values from 2018 in column 'Year'?",
+    answer("pinksalmonratio %>% filter(Year == 2018)", correct = TRUE),
+    answer("pinksalmonratio %>% filter(Year = 2018)"),
+    answer("pinksalmonratio$Year %>% filter(2018)"),
+    answer("filter(pinksalmonratio, Year == 2018)", correct = TRUE)
+  ),
+    question("Multiple filtering criteria: How would you filter dataframe 'pinksalmonratio' to only include values from 2018 in column 'Year' as well as 'Pink salmon' for column 'Species'?",
+    answer("pinksalmonratio %>% filter(Year == 2018, 'Pink salmon')"),
+    answer("pinksalmonratio %>% filter(Year == 2018, Species == 'Pink salmon')", correct = TRUE),
+    answer("pinksalmonratio %>% filter(Year == 2018 & Species == 'Pink salmon')", correct = TRUE),
+    answer("pinksalmonratio %>% filter(year == 2018, species == 'Pink salmon')"),
+    answer("pinksalmonratio %>% filter(Year == 2018 | Species == 'Pink salmon')")
+  ),
+    question("Select the correct code to rename column 'Year' to 'harvestyear'.",
+    answer("pinksalmonratio %>% rename('Year' = 'harvestyear')"),
+    answer("pinksalmonratio %>% rename('year' == 'harvestyear')"),
+    answer("pinksalmonratio %>% rename('harvestyear' = 'Year')", correct = TRUE)
   )
 )
 ```
 
+
+
+### Quiz 1 Review
+That was tricky! Here are a few reminders:  
+ - When checking equality in a `filter()` statement you'll need a double equals (==)  
+ - The ampersand (&) means AND which adds more and more specific criteria  
+ - The vertical bar (|) mean OR which allows alternate criteria  
+ - Using a comma in `filter()` is a shortcut to allow alternate criteria (similar to |)  
+ - When renaming, the new column name is specified first, then the old column name. See `?rename` for more info  
+ 
+
+## Quiz Part 2
+
+*Here are a few more quiz questions. *  
+
+Answer the following:  
+
+```{r data-manip-quiz2}
+quiz(
+  question("Keep only the columns named 'Year' and 'percentmale' from 'pinksalmonratio' ",
+    answer("pinksalmonratio %>% select(Year, percentmale)", correct = TRUE),
+    answer("pinksalmonratio %>% keepcolumns('Year', 'percentmale')"),
+    answer("pinksalmonratio %>% dplyr::select(Year, percentmale)", correct = TRUE),
+    answer("pinksalmonratio %>% select(-Year, -percentmale)")
+  ),
+  question("Drop the column 'Year' from 'pinksalmonratio'. ",
+    answer("pinksalmonratio %% select(Year)"),
+    answer("pinksalmonratio %>% donotselect(Year)"),
+    answer("pinksalmonratio %>% select(-Year)", correct = TRUE)
+  ),
+  question("How would you add a new column (called 'avweight') that divides column 'weight_lbs' by 'num_fish_weighed'? ",
+    answer("pinksalmonratio %>% Mutate(avweight == weight_lbs / num_fish_weighed)"),
+    answer("pinksalmonratio %>% mutate(avweight = weight_lbs / num_fish_weighed)", correct = TRUE),
+    answer("mutate(pinksalmonratio, avweight = weight_lbs / num_fish_weighed)", correct = TRUE)
+  ),
+  question("Using ifelse statements are helpful for conditional criteria. How would you add a new column called 'highlowpercent' based on criteria from column 'percentmale'? ",
+
+    answer("ifelse(pinksalmonratio$percentmale >80, 'High', 'low')"),
+        answer("pinksalmonratio %>% mutate(highlowpercent = ifelse(percentmale >80, 'High Percent Males', 'Low'))", correct = TRUE),
+    answer("pinksalmonratio %>% mutate(ifelse(percentmale >80, 'High Percent Males', 'Low'))"),
+    answer("pinksalmonratio %>% mutate(highlowpercent = ifelse(percentmale, 80, 'High', 'Low'))")
+  )
+)
+```
+
+
+### Quiz 2 Review
+Great job! Let's review a few points quickly:    
+ - In `mutate` and `select` we aren't required to quotes around the column names (but you can if wanted)  
+ - For `ifelse` statements, the syntax is `ifelse(criteria, valueiftrue, valueiffalse)` 
+
+
+### COMPLETE
+That's all, congratulations on getting through this lesson!

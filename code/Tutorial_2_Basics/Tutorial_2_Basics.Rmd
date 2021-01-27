@@ -145,7 +145,7 @@ Did you get 126.9? GREAT JOB!
 
 *Let's now look at the mean Chela width.*
   
-Take the mean of column "Chela". (NOTE! There are many NAs in here!)
+Take the mean of column "Chela". (NOTE! There are many NAs in here, what can you add to this code to remove them?)
 
 ```{r chelamean, exercise = TRUE, exercise.lines = 5}
 mean(tannercrab$Chela)
@@ -292,7 +292,7 @@ quiz(
     answer("listed(1, 2, 3)"),
     answer("c(1, 2, 3)", correct = TRUE)
   ),
-  question("Select column 'Length' that is the 2nd column in dataframe 'groundfish':",
+  question("Select column 'Length' that is the 2nd column in dataframe 'groundfish'. Choose all of the following correct answers:",
     answer("groundfish$Length", correct = TRUE),
     answer("groundfish[,'Length']", correct = TRUE),
     answer("groundfish[,column2]"),
@@ -300,7 +300,7 @@ quiz(
     answer("groundfish[,2]", correct = TRUE),
     answer("groundfish(col=2)")
   ),
-  question("While taking the mean, your answer is returned as NA. What should you add to the code?",
+  question("While taking the mean, your answer is returned as NA. What argument should you add to the code?",
     answer("completecase = FALSE"),
     answer("na.rm = TRUE", correct = TRUE),
     answer("pleaseremoveNAs")

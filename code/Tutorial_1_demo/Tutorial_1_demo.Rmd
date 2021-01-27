@@ -25,18 +25,34 @@ example_df <- data.frame(column1 = x, column2 = round(runif(10, 0, 100), 0))
 
 ```
 
+## learnr Intro
 
-## Basic R Programming 
+### Welcome to learnr!
+
+*This is a simple "app" that I wrote to go through the exercises we'll cover. In each code chunk, you can evaluate the line in R by clicking "Run Code" or just like in RStudio, you can type "Ctrl+Enter". Note! clicking Run Code will evaluate everything in your box; Ctrl+Enter will evaluate only the current line.*  
+
+*Go slow and try to get the correct answers. If you want to see the hints or solutions, check those. This is not graded and is not a race, use this space to familiarize yourself with how R works. Once you are finished, close out of this window before opening a new tutorial.*
+
+*The Table of Content on the left allow you to jump between sections.* 
+<br>  
+
+<hr>  
+
+**UPDATE:**   
+_If you close out of a tutorial and want to work on it again later, you may encounter random errors in datasets not loading properly. To address this, you can do one of two things:_  
+ _- Next to "Run Document" click the dropdown menu and "Clear Prerendered Output"_  
+ _- Modify the text of the RMD by adding a space somewhere or changing version number and clicking save_   
+_Then proceed as normal by clicking "Run Document"_  
+
+
+
+## Basics of R 
 
 ### Exercise 1 {data-allow-skip=TRUE}
 
-*This is a simple "app" that I wrote to go through some of the exercises we've just reviewed. In each code chunk, you can evaluate the line in R by clicking "Run Code" or just like in RStudio, you can type "Ctrl+Enter". Go slow and try to get the correct answers. If you want to see the hints or solutions, check those. This is not graded and is not a race, use this space to familiarize yourself with how R works. Once you are finished, just close out of this before opening a new tutorial.*
-
-*Each choice on the left will be for different learning sections.* 
-
 Enter code below and evaluate it to see the results. Add any two numbers together.
 
-```{r addition, exercise=TRUE, exercise.lines = 3}
+```{r addition, exercise=TRUE, exercise.lines = 5}
 
 ```
 

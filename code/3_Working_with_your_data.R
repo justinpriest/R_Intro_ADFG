@@ -43,6 +43,7 @@ install.packages("NewPackageName") # Replace NewPackageName with whichever packa
 # To load the library, use:
 library(NewPackageName)
 
+
 # Notice that there are quotes around the package name for installing, but not required for library()
 
 # To call a specific function from a specific package, use two colons: packagename::function()
@@ -76,6 +77,8 @@ str(exampledf)
 # A factor is just a type of categorical variable (unordered)
 # You might also notice that statarea probably should *not* be a numerical quantity as well
 # So let's change statarea and sex to both be factors
+
+as.factor(exampledf$sex)
 
 exampledf$sex <- as.factor(exampledf$sex)
 exampledf$statarea <- as.factor(exampledf$statarea)
@@ -153,3 +156,4 @@ addtwonumbers <- function(x1, x2){
   x1 + x2
 }
 addtwonumbers(5, 12)
+
