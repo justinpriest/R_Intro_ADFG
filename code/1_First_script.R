@@ -112,3 +112,10 @@ sample(c("Nathan", "Steve", "Julie", "Andy", "Jason", "Tessa", "Whitney",
 
 
 
+myvector <- c(2, 4, 5, 8, 
+              10, NA)
+
+mean(myvector, na.rm = TRUE)
+
+
+

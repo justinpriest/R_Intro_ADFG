@@ -103,12 +103,20 @@ summary(lm(Chela ~ Width, data = tannercrab  %>%
 
 chelawidthmodel <- lm(Chela ~ Width, data = tannercrab  %>%
                         filter(between(Chela, 8, 60))) # Ignoring curvature
+summary(chelawidthmodel)
 
+
+# To create predictions off your model, you used the predict() function
+# Then, under argument newdata =, you set it to a dataframe with a column 
+# that is the same independent variable (Width in our case)
+# The following line, does this, predicting the chela for Width = 100
 predict(chelawidthmodel, newdata = data.frame(Width = 100), se.fit = TRUE)
 
 
-
+# If we want to know more about many width values, we'll make a larger dataframe
 newdf <- data.frame(Width = seq(from = 90, to = 180, by =1))
+
+# Now predict the chela into a new column of the dataframe
 newdf$predictedchela <- predict(chelawidthmodel, newdata = newdf)
 newdf
 
@@ -119,14 +127,17 @@ newdf
 ######################
 ###### BINOMIAL ######
 
+# Binomial analysis requires 0s and 1s; let's convert that
 tcrabsub <- tannercrab %>%
   mutate(sexcode = ifelse(Sex == "Female", 0, 1))
 
 sexbinom <- glm(sexcode ~ Width, data = tcrabsub, family = "binomial")
 summary(sexbinom)
+# Looks like width does significantly vary by sex
 
 
-preddf <- data.frame(Width = seq(from = 0, to = 180, by =1))
+# Let's predict for Widths from 0 to 180 mm
+preddf <- data.frame(Width = seq(from = 0, to = 180, by = 1))
 preddf$predval <- predict(sexbinom, newdata = preddf, "response")
 preddf
 
@@ -134,14 +145,7 @@ preddf
 ggplot(data = preddf, aes(x = Width, y = predval)) +
   geom_line() + 
   geom_point() +
-  geom_point(data = tcrabsub, aes(x = Width, y = sexcode), color = "red", shape = 3)
-
-# Note 11/24. Rhea says to use comm caught lingcod male vs female
-
-
-
-
-
-
+  geom_point(data = tcrabsub, aes(x = Width, y = sexcode), color = "red", shape = 3) +
+  labs(y = "Logit (0=Female; 1=Male)")
 
 

@@ -45,6 +45,11 @@ cohoescapement %>%
   ggplot(aes(x = Year, y = Escapement_Count, group = River)) +
   geom_line()
 
+ggplot(cohoescapement, aes(x = Year, y = Escapement_Count, group = River)) +
+  geom_line()
+
+
+
 cohoescapement %>%
   ggplot(aes(x = Year, y = Escapement_Count, fill = River)) +
   geom_col()
@@ -58,8 +63,9 @@ cohoescapement %>%
 # We can also change the y-axis to easily accommodate a log scale
 cohoescapement %>%
   ggplot(aes(x = Year, y = Escapement_Count, group = River, color = River)) +
-  geom_line() +
-  scale_y_log10()
+  scale_y_log10() + 
+  geom_line()
+
 
 
 
@@ -128,7 +134,7 @@ cohochart
 cohoescapement_sub %>%
   ggplot(aes(x = Year, y = Escapement_Count, group = River, color = River)) +
   geom_point() +
-  geom_smooth(method = "lm")
+  geom_smooth(method = "lm", se = FALSE)
 
 
 # Columns
@@ -184,6 +190,9 @@ ggplot(pinksalmonratio, aes(x=statweek, y = percentmales, color = District)) +
 #   Use a "+" between plot names to add plots side by side
 #   Use a "/" between plot names to add plots stacked vertically
 
+cohoboxplot
+cohobarchart
+
 cohoboxplot + cohobarchart
 cohoboxplot / cohobarchart
 cohoboxplot + (cohobarchart / cohobarchart)
@@ -204,8 +213,8 @@ cohoboxplot + (cohobarchart / cohobarchart)
 #    units = "in"         (What units are the 6 and 4? inches = "in", centimeters = "cm")
 
 # Example
-# ggsave(plot = plottosave, filename = "output/filesavename.png", 
-#        dpi = 300, width = 6, height = 4, units = "in")
+#ggsave(plot = plottosave, filename = "output/filesavename.png",
+#       dpi = 300, width = 6, height = 4, units = "in")
 
 
 
@@ -253,7 +262,8 @@ hughsmithesc %>%
   theme_minimal() +
   facet_wrap(~Year)
 
-#ggsave(plot = hsruntimeplot, filename = "output/hsruntiming.png", dpi = 300, width =6, height = 4, units = "in")
+# ggsave(plot = hsruntimeplot, filename = "output/hsruntiming.png", 
+#        dpi = 300, width = 6, height = 4, units = "in")
 
 
 
